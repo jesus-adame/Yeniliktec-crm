@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CrmController;
+use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LeadController;
 
 /*
@@ -35,4 +36,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/leads/{lead}', [ LeadController::class, 'destroy' ])->name('leads.destroy');
 
     Route::post('/leads-contact-create-update/{lead}', [ ContactController::class, 'createOrUpdateContactLead' ])->name('leads.contact.create.update');
+
+    Route::get('/inbox', [ InboxController::class, 'index' ])->name('inbox.cur');
 });
