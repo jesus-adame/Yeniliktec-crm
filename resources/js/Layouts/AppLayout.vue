@@ -23,6 +23,9 @@
                                 <jet-nav-link :href="route('crm.index')" :active="route().current('crm.index')">
                                     CRM
                                 </jet-nav-link>
+                                <jet-nav-link :href="route('inbox.cur')" :active="route().current('inbox.cur')">
+                                    Correos
+                                </jet-nav-link>
                             </div>
                         </div>
 
