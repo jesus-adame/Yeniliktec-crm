@@ -13,7 +13,7 @@ class CrmController extends Controller
         $leads = Lead::orderByDesc('created_at')->get();
         $columns = Column::all();
 
-        $boards = Board::where('name', '!=', 'lose')
+        $boards = Board::where('name', 'prospects')
             ->with([
                 'columns' => function ($query) {
                     $query->with('leads');

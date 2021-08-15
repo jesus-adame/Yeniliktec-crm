@@ -37,7 +37,7 @@ class ColumnSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
+                'board_id' => $prospects->id,
                 'name' => 'cited',
                 'text_color' => '#fff',
                 'bg_color' => '#C9A708',
@@ -45,7 +45,7 @@ class ColumnSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
+                'board_id' => $prospects->id,
                 'name' => 'to-close',
                 'text_color' => '#fff',
                 'bg_color' => '#C9A708',
@@ -53,7 +53,7 @@ class ColumnSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
+                'board_id' => $prospects->id,
                 'name' => 'closures',
                 'text_color' => '#fff',
                 'bg_color' => '#03A51D',

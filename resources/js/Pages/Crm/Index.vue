@@ -6,20 +6,25 @@
             </h2>
         </template>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-            <button class="bg-blue-500 text-white p-2 mb-3 shadow" @click="openRegisterLead">Registrar seguimiento</button>
+        <div class="container-fluid h-full mx-auto sm:px-6 lg:px-8 mt-4">
+            <button class="bg-blue-500 text-white p-2 mb-3 shadow" @click="openRegisterLead">
+                Registrar seguimiento
+            </button>
+            <a class="p-4" href="/quotes">Cotizaciones</a>
 
-            <div v-for="board in boards" :key="board.id" class="w-full mb-4">
-                <h2 class="text-center uppercase py-2 font-bold">{{ board.name }}</h2>
-                <hr><br>
-                <div class="flex flex-wrap justify-between">
-                    <div v-for="column in board.columns" :key="column.id"
-                        class="uppercase w-full md:w-1/3 p-2">
-                        <div class="p-3 bg-gray-300 border border-gray-400">
-                            <h3 class="text-center">{{ column.name }}</h3>
-                            <hr><br>
-                            <div v-for="lead in column.leads" :key="lead.id" class="mb-2">
-                                <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
+            <div class="flex">
+                <div v-for="board in boards" :key="board.id" class="w-full mb-4">
+                    <h2 class="text-center uppercase py-2 font-bold">{{ board.name }}</h2>
+                    <hr><br>
+                    <div class="flex justify-between w-full h-full overflow-auto" style="height: 65vh">
+                        <div v-for="column in board.columns" :key="column.id"
+                            class="uppercase block w-80 p-2 flex-none">
+                            <div class="p-3 bg-gray-300 border border-gray-400 h-full">
+                                <h3 class="text-center">{{ column.name }}</h3>
+                                <hr><br>
+                                <div v-for="lead in column.leads" :key="lead.id" class="mb-2">
+                                    <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
+                                </div>
                             </div>
                         </div>
                     </div>

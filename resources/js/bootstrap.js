@@ -14,6 +14,10 @@ window.moment = require('moment');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+window.numeral = require('numeral');
+
+window.numeral.defaultFormat('0,0.00');
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

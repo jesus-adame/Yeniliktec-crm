@@ -5,7 +5,7 @@
         <div class="min-h-screen bg-gray-50">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="container-fluid mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -22,6 +22,9 @@
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('crm.index')" :active="route().current('crm.index')">
                                     CRM
+                                </jet-nav-link>
+                                <jet-nav-link :href="route('products.index')" :active="route().current('products.index')">
+                                    Productos
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('inbox.cur')" :active="route().current('inbox.cur')">
                                     Correos
@@ -222,7 +225,7 @@
 
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="container-fluid mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header"></slot>
                 </div>
             </header>

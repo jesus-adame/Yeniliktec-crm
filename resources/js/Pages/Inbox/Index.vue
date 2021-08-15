@@ -7,11 +7,10 @@
         </template>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-            <div v-for="message in messages" :key="message.id" @click="openMail(message)">
-                <h3 class="font-bold">{{ message.from.mail }}</h3>
-                <h4>{{ message.subject }}</h4>
-                <hr>
-            </div>
+            <row-item v-for="message in messages" :key="message.id"
+                :message="message"
+                @click="openMail(message)">
+            </row-item>
         </div>
         <show-mail :showModal="modalMail" :message="fullMessage" @closeModal="closeMail"></show-mail>
     </app-layout>
@@ -20,6 +19,7 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout';
 import ShowMail from './Modals/ShowMail.vue';
+import RowItem from './Components/RowItem.vue';
 
 export default {
     inheritAttrs: false,
@@ -27,6 +27,7 @@ export default {
     components: {
         AppLayout,
         ShowMail,
+        RowItem,
     },
 
     props: {
