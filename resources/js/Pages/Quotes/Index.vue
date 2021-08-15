@@ -48,7 +48,7 @@
                                             <td class=" px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     <div class="ml-4">
-                                                        <div class="font-bold text-sm font-medium text-gray-900">
+                                                        <div class="font-bold text-sm text-gray-900">
                                                             {{ quote.contact.name }}
                                                         </div>
                                                         <div
@@ -79,7 +79,7 @@
                                                 </span>
                                             </td>
                                             <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                $ {{ formatNumber(quote.items_sum_price) }}
+                                                $ {{ formatNumber(quote.total) }}
                                             </td>
                                             <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <a :href="route('quotes.edit', { id: quote.id })"

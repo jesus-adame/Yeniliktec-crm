@@ -26,6 +26,14 @@ class LeadController extends Controller
                 'column' => function ($query) {
                     $query->withDefault();
                 },
+                'quotes' => function ($query) {
+                    $query
+                    ->select('quotes.*')
+                    ->selectTotal()
+                    ->with(['contact', 'items' => function ($query) {
+                        $query->with('product');
+                    }]);
+                },
             ])
             ->first();
 

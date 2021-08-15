@@ -11,9 +11,11 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="lead">
                                 Lead ID
                             </label>
-                            <input class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="lead"
-                            type="text" name="lead" placeholder="Nombre">
+                            <select class="shadow appearance-none border w-full
+                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" name="lead" id="lead">
+                                <option value="">- Elegir -</option>
+                                <option v-for="lead in leads" :key="lead.id" :value="lead">{{ lead.name }}</option>
+                            </select>
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="contact_email">
@@ -43,7 +45,7 @@
                     </div>
                     <div>
                         <select class="shadow appearance-none border w-full
-                                py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-4" name="products" id="" v-model="selectedItem">
+                            py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-4" name="products" id="" v-model="selectedItem">
                             <option value="">- Elegir -</option>
                             <option v-for="product in products" :key="product.id" :value="product">{{ product.name }}</option>
                         </select>
@@ -171,7 +173,7 @@ export default {
         AppLayout,
     },
 
-    props: ['products'],
+    props: ['products', 'leads'],
 
     setup() {
         let items = ref([]);

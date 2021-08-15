@@ -20,4 +20,9 @@ class QuoteItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeSubtotal($query)
+    {
+        return $query->addSelect('quantity * price as subtotal');
+    }
 }

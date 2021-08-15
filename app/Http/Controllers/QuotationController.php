@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateQuoteRequest;
+use App\Models\Lead;
 use App\Models\Product;
 use App\Models\Quote;
 use App\Models\QuoteItem;
@@ -14,11 +15,15 @@ class QuotationController extends Controller
     public function index()
     {
         $quotes = Quote::orderByDesc('created_at')
-            ->with(['contact', 'items' => function ($query) {
-                $query->with('product');
-            }])
-            ->withSum('items', 'price')
-            ->paginate(10);
+            ->with([
+                'contact',
+                'items' => function ($query) {
+                    $query->with('product');
+                },
+            ])
+            ->select('quotes.*')
+            ->selectTotal()
+            ->paginate(15);
         
         return inertia('Quotes/Index', compact('quotes'));
     }
@@ -26,7 +31,9 @@ class QuotationController extends Controller
     public function create()
     {
         $products = Product::all();
-        return inertia('Quotes/Create', compact('products'));
+        $leads = Lead::all();
+
+        return inertia('Quotes/Create', compact('products', 'leads'));
     }
 
     public function store(CreateQuoteRequest $request)

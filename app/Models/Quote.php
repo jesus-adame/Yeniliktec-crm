@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Quote extends Model
 {
@@ -25,5 +26,11 @@ class Quote extends Model
     public function items()
     {
         return $this->hasMany(QuoteItem::class);
+    }
+
+    public function scopeSelectTotal($query)
+    {
+        return $query
+            ->addSelect(DB::raw('(select SUM(quote_items.price * quote_items.quantity) from `quote_items` where `quotes`.`id` = `quote_items`.`quote_id`) as total'));
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <dialog-modal :show="showModal" @close="closeModal" maxWidth="2xl">
+    <dialog-modal :show="showModal" @close="closeModal" maxWidth="3xl">
         <template v-slot:title>
             <h2>{{ lead.title }}</h2>
         </template>
@@ -42,6 +42,81 @@
 
                 <div class="p-2">
                     <contact-card :contact="form.contact" :lead="lead"></contact-card>
+                </div>
+            </div>
+            <h3 class="font-bold">Cotizaciones</h3>
+            <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('quotes.create')">Registrar</inertia-link>
+            <div class="flex flex-col">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class=" py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class=" shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Contacto
+                                        </th>
+                                        <th scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Descripción
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Valor
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="relative px-6 py-3">
+                                            <span class="sr-only">Edit</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="quote in lead.quotes" :key="quote.id">
+                                        <td class=" px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="ml-4">
+                                                    <div class="font-bold text-sm text-gray-900">
+                                                        {{ quote.contact.name }}
+                                                    </div>
+                                                    <div
+                                                        class="text-sm text-gray-500">
+                                                        {{ quote.contact.email }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                <table>
+                                                    <tr v-for="item in quote.items" :key="item.id">
+                                                        <td>
+                                                            <span class="px-2 text-green-800 bg-green-100 rounded-full">
+                                                                {{ item.quantity }}
+                                                                {{ item.product.unity }}
+                                                            </span>
+                                                            * {{ item.product.sku }} {{ item.product.name }}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            $ {{ formatNumber(quote.total) }}
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a :href="route('quotes.edit', { id: quote.id })"
+                                                class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 text-indigo-600hover:text-indigo-900">Edit</a>
+                                            <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
+                                                @click="destroy(quote.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </template>
@@ -160,6 +235,10 @@ export default {
             resetForm();
         })
 
+        const formatNumber = (number) => {
+            return numeral(number).format();
+        }
+
         return {
             contact,
             columns,
@@ -169,6 +248,7 @@ export default {
             updateLead,
             deleteLead,
             lead,
+            formatNumber,
         }
     }
 }

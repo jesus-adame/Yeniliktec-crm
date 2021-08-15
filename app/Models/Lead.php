@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use stdClass;
 
 class Lead extends Model
 {
@@ -32,5 +31,10 @@ class Lead extends Model
     public function contact()
     {
         return $this->belongsTo(Contact::class);
+    }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
     }
 }
