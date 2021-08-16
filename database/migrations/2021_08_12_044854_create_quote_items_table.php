@@ -17,8 +17,13 @@ class CreateQuoteItemsTable extends Migration
             $table->id();
             $table->foreignId('quote_id');
             $table->foreignId('product_id');
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->float('quantity');
             $table->float('price');
+            $table->string('unity');
+            $table->float('tax_amount')->nullable()->default(0);
+            $table->float('total')->nullable()->default(0);
             $table->timestamps();
         });
     }

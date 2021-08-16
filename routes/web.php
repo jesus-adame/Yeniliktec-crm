@@ -38,4 +38,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/quotes/{quote}/edit',  [ QuotationController::class, 'edit' ])     ->name('quotes.edit');
     Route::put('/quotes/{quote}',       [ QuotationController::class, 'update' ])   ->name('quotes.update');
     Route::delete('/quotes/{quote}',    [ QuotationController::class, 'destroy' ])  ->name('quotes.destroy');
+
+    Route::get('/print/quote/{quote}', [ QuotationController::class, 'printQuote' ])->name('print.quote');
 });

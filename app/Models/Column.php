@@ -10,7 +10,7 @@ class Column extends Model
     use HasFactory;
 
     protected $fillable = [
-        'board_id', 'name',
+        'board_id', 'name', 'tex_color', 'bg_color'
     ];
 
     public function board()

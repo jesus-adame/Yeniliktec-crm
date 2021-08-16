@@ -19,8 +19,8 @@
                     <div class="flex justify-between w-full h-full overflow-auto" style="height: 65vh">
                         <div v-for="column in board.columns" :key="column.id"
                             class="uppercase block w-80 p-2 flex-none">
-                            <div class="p-3 bg-gray-300 border border-gray-400 h-full">
-                                <h3 class="text-center">{{ column.name }}</h3>
+                            <div class="p-3 shadow-md rounded h-full" :style="{ 'background-color': column.bg_color }">
+                                <h3 class="text-center" :style="{ color: column.text_color }">{{ column.name }}</h3>
                                 <hr><br>
                                 <div v-for="lead in column.leads" :key="lead.id" class="mb-2">
                                     <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
@@ -34,6 +34,7 @@
     </app-layout>
     <register-lead
         :showModal="registerLead"
+        :users="users"
         @closeModal="closeRegisterLead"
         @leadRegistered="resfreshLeads"></register-lead>
     <show-lead
@@ -69,6 +70,7 @@ export default {
         leads: Array,
         boards: Array,
         columns: Array,
+        users: Array,
     },
 
     data() {

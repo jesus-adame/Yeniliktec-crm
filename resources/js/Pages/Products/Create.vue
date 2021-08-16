@@ -52,6 +52,14 @@
                         </div>
                         <div class="w-1/2 px-2">
                             <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tax_amount">
+                                    Porcentaje de impuesto
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="tax_amount"
+                                type="number" name="tax_amount" placeholder="Impuesto">
+                            </div>
+                            <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                                     Estatus
                                 </label>
@@ -118,8 +126,8 @@ export default {
             try {
                 let response = await axios.post(route('products.store'), form);
 
-                __alert_notification(response.data.message)
-                .then(() => Inertia.visit(route('products.index')));
+                __alert_notification(response.data.message);
+                Inertia.visit(route('products.index'));
                 
             } catch (error) {
                 Swal.fire({

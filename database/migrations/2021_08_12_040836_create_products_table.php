@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('status');
             $table->float('stock')->nullable()->default(0);
             $table->integer('manage_stock')->nullable()->default(0);
+            $table->float('tax_amount')->nullable()->default(0);
             $table->timestamps();
         });
     }

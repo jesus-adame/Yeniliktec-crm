@@ -11,6 +11,7 @@ class Board extends Model
 
     protected $fillable = [
         'name',
+        'slug',
     ];
 
     public function columns()

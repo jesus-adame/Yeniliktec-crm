@@ -18,5 +18,6 @@ class Product extends Model
         'unity',
         'stock',
         'manage_stock',
+        'tax_amount',
     ];
 }

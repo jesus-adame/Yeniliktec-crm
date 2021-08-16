@@ -55,8 +55,8 @@ class CreateLeadRequest extends FormRequest
     {
         $this->merge([
             'user_id' => auth()->user()->id,
-            'agent_id' => User::where('email', $this->author)->first()->id ?? null,
-            'column_id' => Column::where('name', 'inbox')->first()->id ?? null,
+            'agent_id' => User::where('email', $this->agent)->first()->id ?? null,
+            'column_id' => Column::where('slug', 'inbox')->first()->id ?? null,
             'contact_id' => null,
 
             'contact_type' => 'customer',

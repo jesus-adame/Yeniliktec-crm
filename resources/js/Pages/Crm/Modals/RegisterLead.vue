@@ -1,5 +1,5 @@
 <template>
-    <dialog-modal :show="showModal" @close="closeModal">
+    <dialog-modal :show="showModal" @close="closeModal" maxWidth="3xl">
         <template v-slot:title>
             <h2>Registrar lead</h2>
         </template>
@@ -11,10 +11,22 @@
                     <Input v-model="form.title" name="title"/>
 
                     <label for="title">Autor email*</label>
-                    <Input v-model="form.author" name="author"/>
+                    <select class="border my-1 p-1 border-gray-500 focus:ring focus:ring-indigo-200 shadow-sm w-full"
+                        v-model="form.author"
+                        name="agent"
+                        id="agent">
+                        <option value="">- Elegir -</option>
+                        <option v-for="user in users" :key="user.id" :value="user.email">{{ user.email }} - {{ user.name }}</option>
+                    </select>
 
                     <label for="title">Agente email*</label>
-                    <Input v-model="form.agent" name="agent"/>
+                    <select class="border my-1 p-1 border-gray-500 focus:ring focus:ring-indigo-200 shadow-sm w-full"
+                        v-model="form.agent"
+                        name="agent"
+                        id="agent">
+                        <option value="">- Elegir -</option>
+                        <option v-for="user in users" :key="user.id" :value="user.email">{{ user.email }} - {{ user.name }}</option>
+                    </select>
 
                     <label for="title">Estatus*</label>
                     <select class="border my-1 p-1 border-gray-500 focus:ring focus:ring-indigo-200 shadow-sm w-full" name="status" v-model="form.status">
@@ -28,8 +40,6 @@
                 </div>
 
                 <div class="p-2">
-                    {{ form.contact }}
-
                     <div class="flex justify-between items-center">
                         <p class="font-bold">Contacto</p>
                     </div>
@@ -73,7 +83,8 @@ import ContactCard from './../Components/ContactCard.vue';
 
 export default {
     props: [
-        'showModal'
+        'showModal',
+        'users',
     ],
 
     emits: [

@@ -19,7 +19,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="contact_email">
-                                Contact email
+                                Email del contacto
                             </label>
                             <input class="shadow appearance-none border w-full
                             py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="contact_email"

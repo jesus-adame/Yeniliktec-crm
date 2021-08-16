@@ -29,6 +29,8 @@ class ProductController extends Controller
         $unities = [
             [ 'name' => 'hrs'],
             [ 'name' => 'proyecto' ],
+            [ 'name' => 'semanas' ],
+            [ 'name' => 'meses' ],
         ];
 
         return inertia('Products/Create', compact('unities'));
@@ -50,6 +52,7 @@ class ProductController extends Controller
             'unity' => 'required',
             'slug' => 'nullable',
             'manage_stock' => 'required',
+            'tax_amount' => 'nullable',
         ]);
 
         $form = $request->only([
@@ -60,6 +63,7 @@ class ProductController extends Controller
             'unity',
             'slug',
             'manage_stock',
+            'tax_amount',
         ]);
 
         Product::create($form);
@@ -89,6 +93,8 @@ class ProductController extends Controller
         $unities = [
             [ 'name' => 'hrs'],
             [ 'name' => 'proyecto' ],
+            [ 'name' => 'semanas' ],
+            [ 'name' => 'meses' ],
         ];
 
         return inertia('Products/Edit', compact('product', 'unities'));
@@ -111,6 +117,7 @@ class ProductController extends Controller
             'unity' => 'required',
             'slug' => 'nullable',
             'manage_stock' => 'required',
+            'tax_amount' => 'nullable',
         ]);
 
         $form = $request->only([
@@ -121,6 +128,7 @@ class ProductController extends Controller
             'unity',
             'slug',
             'manage_stock',
+            'tax_amount',
         ]);
 
         $product->update($form);

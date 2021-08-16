@@ -18,6 +18,14 @@ class Quote extends Model
         'status',
     ];
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($quote) {
+            $quote->items()->delete();
+        });
+    }
+
     public function contact()
     {
         return $this->belongsTo(Contact::class, 'client_id');
@@ -31,6 +39,7 @@ class Quote extends Model
     public function scopeSelectTotal($query)
     {
         return $query
-            ->addSelect(DB::raw('(select SUM(quote_items.price * quote_items.quantity) from `quote_items` where `quotes`.`id` = `quote_items`.`quote_id`) as total'));
+            ->addSelect(DB::raw('(select SUM(quote_items.price * quote_items.quantity + (quote_items.price * (quote_items.tax_amount / 100)))
+            from `quote_items` where `quotes`.`id` = `quote_items`.`quote_id`) as total'));
     }
 }

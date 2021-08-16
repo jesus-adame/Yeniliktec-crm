@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateQuoteRequest;
 use App\Models\Lead;
-use App\Models\Product;
 use App\Models\Quote;
+use App\Models\Product;
 use App\Models\QuoteItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CreateQuoteRequest;
+use App\Http\Requests\UpdateQuoteRequest;
+use App\Support\Facades\PDF;
+use Illuminate\Support\Collection;
 
 class QuotationController extends Controller
 {
@@ -44,7 +47,6 @@ class QuotationController extends Controller
             'client_id',
             'lead_id',
             'status',
-            'items',
         ]);
 
         $itemsJson = $request->only(['items']);
@@ -58,8 +60,13 @@ class QuotationController extends Controller
                 QuoteItem::create([
                     'quote_id' => $quote->id,
                     'product_id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
                     'quantity' => $item->quantity,
                     'price' => $item->price,
+                    'unity' => $item->unity,
+                    'tax_amount' => $item->tax_amount,
+                    'total' => $item->quantity * $item->price + ($item->price * ($item->tax_amount / 100)),
                 ]);
             }
         });
@@ -67,32 +74,68 @@ class QuotationController extends Controller
         return response(['message' => 'Registrado correctamente']);
     }
 
-    public function edit(Quote $quote)
+    public function edit($id)
     {
-        return inertia('Quotes/Edit', compact('product'));
+        $products = Product::all();
+        $leads = Lead::all();
+        $quote = Quote::with([
+                'contact',
+                'items' => function ($query) {
+                    $query->with('product');
+                },
+            ])
+            ->find($id);
+
+        return inertia('Quotes/Edit', compact(
+            'quote',
+            'products',
+            'leads',
+        ));
     }
 
-    public function update(Request $request, Quote $quote)
+    public function update(UpdateQuoteRequest $request, Quote $quote)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
-            'status' => 'required',
-            'price' => 'required',
-            'slug' => 'nullable',
-            'manage_stock' => 'required',
-        ]);
-
         $form = $request->only([
-            'name',
-            'description',
+            'folio',
+            'user_id',
+            'client_id',
+            'lead_id',
             'status',
-            'price',
-            'slug',
-            'manage_stock',
         ]);
 
-        $quote->update($form);
+        $itemsJson = $request->only(['items']);
+
+        $items = new Collection(json_decode($itemsJson['items']));
+
+        DB::transaction(function () use ($form, $items, $quote) {
+            $quote->update($form);
+
+            QuoteItem::whereNotIn('id', $items->pluck('id'))->delete();
+            
+            foreach ($items as $item) {
+                $itemData = [
+                    'quote_id' => $quote->id,
+                    'product_id' => $item->product_id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'unity' => $item->unity,
+                    'tax_amount' => $item->tax_amount,
+                    'total' => $item->quantity * $item->price + ($item->price * ($item->tax_amount / 100)),
+                ];
+                
+                $quoteItem = QuoteItem::where('product_id', $item->product_id)
+                    ->where('quote_id', $quote->id)
+                    ->first();
+
+                if ($quoteItem) {
+                    $quoteItem->update($itemData);
+                } else {
+                    QuoteItem::Create($itemData);
+                }
+            }
+        });
 
         return response(['message' => 'Actualizado correctamente']);
     }
@@ -102,5 +145,26 @@ class QuotationController extends Controller
         $quote->delete();
 
         return response(['message' => 'Eliminado correctamente']);
+    }
+
+    public function printQuote($id)
+    {
+        $quote = Quote::with([
+            'contact',
+            'items',
+        ])
+        ->find($id);
+
+        $total = 0;
+        $taxes = 0;
+
+        foreach ($quote->items as $item) {
+            $total += $item->total;
+            $taxes += ($item->tax_amount / 100) * $item->price;
+        }
+
+        $pdf = PDF::loadView('pdf.modern-quote', compact('quote', 'total', 'taxes'));
+
+        return $pdf->stream();
     }
 }

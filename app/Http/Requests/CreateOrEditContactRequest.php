@@ -25,7 +25,7 @@ class CreateOrEditContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'            => 'required|alpha|min:4|max:25',
+            'name'            => ['required', 'min:4', 'max:25', new FullLastNameRule],
             'last_name'       => ['required', 'min:4', 'max:25', new FullLastNameRule],
             'email'           => 'required|email:rfc,strict,filter',
             'phone_number'    => 'required|numeric|digits_between:10,12',

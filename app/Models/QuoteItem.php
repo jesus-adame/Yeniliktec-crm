@@ -12,8 +12,13 @@ class QuoteItem extends Model
     protected $fillable = [
         'quote_id',
         'product_id',
+        'name',
+        'description',
         'quantity',
         'price',
+        'unity',
+        'tax_amount',
+        'total',
     ];
 
     public function product()

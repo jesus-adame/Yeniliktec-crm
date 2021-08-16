@@ -4,83 +4,98 @@
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Productos</h1>
         </template>
         <div class="container-fluid mx-auto mt-5">
-            <div class="w-full mx-auto max-w-xs">
+            <div class="w-full mx-auto max-w-md">
                 <form class="bg-white shadow-md px-8 pt-6 pb-8 mb-4" @submit="sendForm">
                     <input type="hidden" name="_method" value="put">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                            Nombre
-                        </label>
-                        <input class="shadow appearance-none border w-full
-                        py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="name"
-                        v-model="form.name"
-                        type="text" name="name" placeholder="Nombre">
-                    </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                            Descripción
-                        </label>
-                        <input class="shadow appearance-none border w-full
-                        py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="description"
-                        v-model="form.description"
-                        name="description"
-                        type="text" placeholder="description">
-                        <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
-                            Precio
-                        </label>
-                        <input class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="price"
-                            v-model="form.price"
-                            type="number" name="price" placeholder="Precio">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="unity">
-                            Unidad
-                        </label>
-                        <select
-                            class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight
-                            capitalize focus:outline-none"
-                            name="unity"
-                            v-model="form.unity"
-                            id="unity">
-                            <option value="">- Elegir -</option>
-                            <option v-for="unity in unities" :key="unity.id" :value="unity.name">{{ unity.name }}</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
-                            Estatus
-                        </label>
-                        <select class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                            v-model="form.status"
-                            name="status" id="status">
-                            <option value="active">Activo</option>
-                            <option value="inactive">Inactivo</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="slug">
-                            Slug
-                        </label>
-                        <input class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="slug"
-                            v-model="form.slug"
-                            type="text" name="slug" placeholder="Slug">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="manage_stock">
-                            Maneja stock
-                        </label>
-                        <select class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                            v-model="form.manage_stock"
-                            name="manage_stock" id="manage_stock">
-                            <option value="1">Sí</option>
-                            <option value="0">No</option>
-                        </select>
+                    <div class="flex flex-wrap">
+                        <div class="w-1/2 px-2">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                    Nombre
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="name"
+                                    v-model="form.name"
+                                    type="text" name="name" placeholder="Nombre">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                                    Descripción
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="description"
+                                    v-model="form.description"
+                                    name="description"
+                                    type="text" placeholder="description">
+                                    <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
+                                    Precio
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="price"
+                                    v-model="form.price"
+                                    type="number" name="price" placeholder="Precio">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="unity">
+                                    Unidad
+                                </label>
+                                <select
+                                    class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight
+                                    capitalize focus:outline-none"
+                                    name="unity"
+                                    v-model="form.unity"
+                                    id="unity">
+                                    <option value="">- Elegir -</option>
+                                    <option v-for="unity in unities" :key="unity.id" :value="unity.name">{{ unity.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-1/2 px-2">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tax_amount">
+                                    Porcentaje de impuesto
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="tax_amount"
+                                    v-model="form.tax_amount"
+                                    type="number" name="tax_amount" placeholder="Impuesto">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
+                                    Estatus
+                                </label>
+                                <select class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                                    v-model="form.status"
+                                    name="status" id="status">
+                                    <option value="active">Activo</option>
+                                    <option value="inactive">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="slug">
+                                    Slug
+                                </label>
+                                <input class="shadow appearance-none border w-full
+                                    py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="slug"
+                                    v-model="form.slug"
+                                    type="text" name="slug" placeholder="Slug">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="manage_stock">
+                                    Maneja stock
+                                </label>
+                                <select class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                                    v-model="form.manage_stock"
+                                    name="manage_stock" id="manage_stock">
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex items-center justify-between">
                         <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-4 focus:outline-none" type="submit">

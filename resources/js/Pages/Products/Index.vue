@@ -20,7 +20,7 @@
                                         <tr>
                                             <th scope="col"
                                                 class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Name
+                                                Nombre
                                             </th>
                                             <th scope="col"
                                                 class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -29,7 +29,7 @@
                                             <th
                                                 scope="col"
                                                 class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Status
+                                                Estatus
                                             </th>
                                             <th
                                                 scope="col"
@@ -38,8 +38,13 @@
                                             </th>
                                             <th
                                                 scope="col"
+                                                class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Impuesto (IVA)
+                                            </th>
+                                            <th
+                                                scope="col"
                                                 class="relative px-6 py-3">
-                                                <span class="sr-only">Edit</span>
+                                                <span class="sr-only">Editar</span>
                                             </th>
                                         </tr>
                                     </thead>
@@ -48,12 +53,8 @@
                                             <td class=" px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     <div class="ml-4">
-                                                        <div class=" text-sm font-medium text-gray-900">
+                                                        <div class="font-bold text-sm font-medium text-gray-900">
                                                             {{ product.name }}
-                                                        </div>
-                                                        <div
-                                                            class="text-sm text-gray-500">
-                                                            jane.cooper@example.com
                                                         </div>
                                                     </div>
                                                 </div>
@@ -61,9 +62,6 @@
                                             <td class=" px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900">
                                                     {{ product.description }}
-                                                </div>
-                                                <div class="text-sm text-gray-500">
-                                                    Optimization
                                                 </div>
                                             </td>
                                             <td class="capitalize px-6 py-4 whitespace-nowrap">
@@ -74,10 +72,16 @@
                                             <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 $ {{ formatNumber(product.price) }}
                                             </td>
+                                            <td class=" px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                                                {{ product.tax_amount }} %
+                                            </td>
                                             <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a :href="route('products.edit', { id: product.id })" class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 text-indigo-600hover:text-indigo-900">Edit</a>
+                                                <inertia-link :href="route('products.edit', { id: product.id })"
+                                                    class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 text-indigo-600hover:text-indigo-900">
+                                                    Editar
+                                                </inertia-link>
                                                 <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                                    @click="destroy(product.id)">Delete</button>
+                                                    @click="destroy(product.id)">Eliminar</button>
                                             </td>
                                         </tr>
                                     </tbody>

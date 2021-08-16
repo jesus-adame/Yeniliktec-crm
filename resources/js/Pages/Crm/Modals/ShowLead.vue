@@ -69,7 +69,7 @@
                                         <th
                                             scope="col"
                                             class="relative px-6 py-3">
-                                            <span class="sr-only">Edit</span>
+                                            <span class="sr-only">Editar</span>
                                         </th>
                                     </tr>
                                 </thead>
@@ -79,7 +79,7 @@
                                             <div class="flex items-center">
                                                 <div class="ml-4">
                                                     <div class="font-bold text-sm text-gray-900">
-                                                        {{ quote.contact.name }}
+                                                        <a :href="route('print.quote', { quote: quote.id })" target="_blank">{{ quote.contact.name }}</a>
                                                     </div>
                                                     <div
                                                         class="text-sm text-gray-500">
@@ -107,10 +107,15 @@
                                             $ {{ formatNumber(quote.total) }}
                                         </td>
                                         <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a :href="route('quotes.edit', { id: quote.id })"
-                                                class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 text-indigo-600hover:text-indigo-900">Edit</a>
-                                            <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                                @click="destroy(quote.id)">Delete</button>
+                                            <a class="rounded text-white mx-1 bg-gray-500 py-1 px-2 hover:text-indigo-900" :href="route('print.quote', { quote: quote.id })" target="_blank">
+                                                Imprimir
+                                            </a>
+                                            <inertia-link :href="route('quotes.edit', { id: quote.id })"
+                                                class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 hover:text-indigo-900">
+                                                Editar
+                                            </inertia-link>
+                                            <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 hover:text-indigo-900"
+                                                @click="destroy(quote.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
