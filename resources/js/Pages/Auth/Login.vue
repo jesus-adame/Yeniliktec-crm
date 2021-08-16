@@ -1,7 +1,8 @@
 <template>
     <jet-authentication-card>
         <template #logo>
-            <jet-authentication-card-logo />
+            <img src="/img/logo-yeniliktec.png" class="block h-44 w-auto" alt="Logo Yeniliktec">
+            <h1 class="text-center font-bold">SISTEMA CRM</h1>
         </template>
 
         <jet-validation-errors class="mb-4" />

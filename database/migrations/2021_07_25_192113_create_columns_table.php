@@ -17,6 +17,7 @@ class CreateColumnsTable extends Migration
             $table->id();
             $table->foreignId('board_id');
             $table->string('name');
+            $table->string('slug');
             $table->string('text_color', 20)->default('#fff');
             $table->string('bg_color', 20)->default('#1F48B2');
             $table->timestamps();

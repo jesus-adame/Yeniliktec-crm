@@ -15,56 +15,61 @@ class ColumnSeeder extends Seeder
      */
     public function run()
     {
-        $prospects = Board::where('name', 'prospects')->first();
-        $tracing = Board::where('name', 'tracing')->first();
-        $lose = Board::where('name', 'lose')->first();
+        $prospects = Board::where('slug', 'prospects')->first();
+        $lose = Board::where('slug', 'lose')->first();
 
         Column::insert([
             [
                 'board_id' => $prospects->id,
-                'name' => 'inbox',
+                'name' => 'Bandeja de entrada',
+                'slug' => 'inbox',
                 'text_color' => '#fff',
-                'bg_color' => '#A80000',
+                'bg_color' => '#c54141',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'board_id' => $prospects->id,
-                'name' => 'to-contact',
+                'name' => 'Por contactar',
+                'slug' => 'to-contact',
                 'text_color' => '#fff',
-                'bg_color' => '#C9A708',
+                'bg_color' => '#bf7e47',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
-                'name' => 'cited',
+                'board_id' => $prospects->id,
+                'name' => 'Citados',
+                'slug' => 'cited',
                 'text_color' => '#fff',
-                'bg_color' => '#C9A708',
+                'bg_color' => '#d3ba47',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
-                'name' => 'to-close',
+                'board_id' => $prospects->id,
+                'name' => 'Por cerrar',
+                'slug' => 'to-close',
                 'text_color' => '#fff',
-                'bg_color' => '#C9A708',
+                'bg_color' => '#97c73e',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'board_id' => $tracing->id,
-                'name' => 'closures',
+                'board_id' => $prospects->id,
+                'name' => 'Cerrados',
+                'slug' => 'closures',
                 'text_color' => '#fff',
-                'bg_color' => '#03A51D',
+                'bg_color' => '#3cac4e',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'board_id' => $lose->id,
-                'name' => 'lost',
+                'name' => 'Perdidos',
+                'slug' => 'lost',
                 'text_color' => '#fff',
-                'bg_color' => '#A80000',
+                'bg_color' => '#c54141',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

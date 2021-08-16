@@ -2,41 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Contracts\ImapAdapter;
 use Illuminate\Http\Request;
-use Webklex\IMAP\Facades\Client;
 
 class InboxController extends Controller
 {
-    public function index()
+    public function index(ImapAdapter $ImapClient)
     {
-        $oClient = Client::account('default');
-        $oClient->connect();
-
-        //Get INBOX Mailboxes
-        $oFolder = $oClient->getFolder('INBOX');
-
-        //Get all Messages of the current Mailbox $oFolder
-        /** @var \Webklex\IMAP\Support\MessageCollection $aMessage */
-        $aMessage = $oFolder->query()->since(now()->subDays(30))->get();
-
-        $messages = [];
-        
-        /** @var \Webklex\IMAP\Message $oMessage */
-        foreach ($aMessage->toArray() as $oMessage) {
-            $struct = [
-                'uid' => $oMessage->getUid(),
-                'from' => $oMessage->getFrom()[0],
-                'subject' => $oMessage->getSubject()[0],
-                'body' => $oMessage->getHTMLBody(true),
-            ];
-
-            array_push($messages, $struct);
-            $oMessage->bodies['html'];
-        }
-
-        $messages = array_reverse($messages);
-
-        //dd($messages);
+        $messages = $ImapClient->getInboxMessages(10);
 
         return inertia('Inbox/Index', compact('messages'));
     }

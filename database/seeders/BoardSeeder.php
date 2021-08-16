@@ -16,17 +16,20 @@ class BoardSeeder extends Seeder
     {
         Board::insert([
             [
-                'name' => 'prospects',
+                'name' => 'Prospectos',
+                'slug' => 'prospects',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'tracing',
+                'name' => 'Seguimiento',
+                'slug' => 'tracing',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'lose',
+                'name' => 'Perdidos',
+                'slug' => 'lose',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

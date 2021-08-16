@@ -10,6 +10,13 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'parent_id', 'user_id', 'taskable_id', 'takskable_type', 'title', 'description', 'status', 'expire_at',
+        'parent_id',
+        'user_id',
+        'taskable_id',
+        'takskable_type',
+        'title',
+        'description',
+        'status',
+        'expire_at',
     ];
 }
