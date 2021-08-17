@@ -26,4 +26,9 @@ class Contact extends Model
     {
         return $this->hasMany(Lead::class);
     }
+
+    public function documents()
+    {
+        return $this->morphToMany(Document::class, 'documentable');
+    }
 }

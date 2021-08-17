@@ -42,7 +42,7 @@ class CreateLeadRequest extends FormRequest
             'contact_phone_number'    => 'required|numeric|digits_between:10,12',
             'contact_type'            => 'required|min:4|max:25',
             'contact_status'          => 'required|min:1|max:10',
-            'contact_description'     => 'required|min:4|max:255',
+            'contact_description'     => 'nullable|min:4|max:255',
         ];
     }
 

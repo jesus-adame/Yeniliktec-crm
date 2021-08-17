@@ -1,7 +1,7 @@
 <template>
-    <dialog-modal :show="showModal" @close="closeModal" maxWidth="3xl">
+    <dialog-modal :show="showModal" @close="closeModal" maxWidth="4xl">
         <template v-slot:title>
-            <h2>{{ lead.title }}</h2>
+            <h2 class="font-bold">{{ lead.title }}</h2>
         </template>
 
         <template v-slot:content>
@@ -44,10 +44,13 @@
                     <contact-card :contact="form.contact" :lead="lead"></contact-card>
                 </div>
             </div>
-            <h3 class="font-bold">Cotizaciones</h3>
-            <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('quotes.create')">Registrar</inertia-link>
+            <hr>
+            <div class="flex justify-between mt-4">
+                <h3 class="font-bold">Cotizaciones</h3>
+                <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('quotes.create')">Nueva cotización</inertia-link>
+            </div>
             <div class="flex flex-col">
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class=" py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class=" shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
@@ -114,14 +117,98 @@
                                                 class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 hover:text-indigo-900">
                                                 Editar
                                             </inertia-link>
-                                            <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 hover:text-indigo-900"
-                                                @click="destroy(quote.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+            <h1 class="font-bold my-5">Documentos</h1>
+            <div class="flex flex-col">
+                <form action="#"
+                    method="post"
+                    enctype="multipart/form-data"
+                    @submit="loadFile">
+                    <div class="flex flex-wrap">
+                        <div class="md:w-1/2 mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                Nombre del documento
+                            </label>
+                            <input class="shadow appearance-none border w-11/12
+                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="name"
+                                name="name"
+                                type="text" placeholder="Nombre">
+                        </div>
+                        <div class="md:w-1/2 mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="lead">
+                                Documento
+                            </label>
+                            <input class="shadow appearance-none border w-full
+                                py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                                type="file"
+                                name="document" id="document">
+                            <Button class="mt-4" type="submit">Cargar archivo</Button>
+                        </div>
+                    </div>
+                </form>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nombre
+                                </th>
+                                <th scope="col"
+                                    class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Ruta
+                                </th>
+                                <th
+                                    scope="col"
+                                    class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tipo
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="relative px-6 py-3">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="document in lead.documents" :key="document.id">
+                                <td class=" px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <div class="font-bold text-sm text-gray-900">
+                                                {{ document.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class=" px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        {{ document.path }}
+                                    </div>
+                                </td>
+                                <td class="capitalize px-6 py-4 whitespace-nowrap">
+                                    <span class=" px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {{ document.mime_type }}
+                                    </span>
+                                </td>
+                                <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a :href="route('documents.download', { id: document.id })" target="_blank"
+                                        class="rounded text-white mx-1 bg-blue-400 py-1 px-2 text-indigo-600hover:text-indigo-900">
+                                        Descargar
+                                    </a>
+                                    <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
+                                        @click="deleteFile(document.id)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </template>
@@ -214,7 +301,7 @@ export default {
                 Swal.fire({
                     icon: 'error',
                     title: fail.response.data.message,
-                })
+                });
             }
         }
 
@@ -244,6 +331,43 @@ export default {
             return numeral(number).format();
         }
 
+        const loadFile = async (e) => {
+            e.preventDefault();
+            let data = new FormData(e.target);
+            Swal.showLoading();
+            
+            try {
+                let response = await axios.post(route('lead.document', {lead: lead.value.id}), data);
+
+                __alert_notification(response.data.message);
+                e.target.reset();
+                emit('leadRegistered');
+                closeModal();
+
+            } catch (fail) {
+                Swal.fire({
+                    icon: 'error',
+                    title: fail.response.data.message,
+                });
+            }
+        }
+
+        const deleteFile = async (productId) => {
+            try {
+                let response = await axios.delete(route('documents.destroy', { id: productId }));
+
+                __alert_notification(response.data.message);
+                emit('leadRegistered');
+                closeModal();
+
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response.data.message
+                });
+            }
+        }
+
         return {
             contact,
             columns,
@@ -254,6 +378,8 @@ export default {
             deleteLead,
             lead,
             formatNumber,
+            loadFile,
+            deleteFile,
         }
     }
 }

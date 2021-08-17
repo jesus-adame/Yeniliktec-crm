@@ -37,4 +37,9 @@ class Lead extends Model
     {
         return $this->hasMany(Quote::class);
     }
+
+    public function documents()
+    {
+        return $this->morphToMany(Document::class, 'documentable');
+    }
 }
