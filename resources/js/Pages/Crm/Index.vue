@@ -10,7 +10,8 @@
             <button class="bg-blue-500 text-white p-2 mb-3 shadow" @click="openRegisterLead">
                 Registrar seguimiento
             </button>
-            <a class="p-4" href="/quotes">Cotizaciones</a>
+            <inertia-link class="bg-gray-800 text-white p-2 mx-2" href="/quotes">Cotizaciones</inertia-link>
+            <inertia-link class="bg-gray-800 text-white p-2 mx-2" href="/documents">Documentos</inertia-link>
 
             <div class="flex">
                 <div v-for="board in boards" :key="board.id" class="w-full mb-4">

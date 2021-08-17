@@ -21,7 +21,7 @@ class CreateContactsTable extends Migration
             $table->string('phone_number', 20);
             $table->string('type');
             $table->string('status', 25);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('billing_name')->nullable();
             $table->string('billing_code')->nullable();
             $table->string('billing_address', 100)->nullable();

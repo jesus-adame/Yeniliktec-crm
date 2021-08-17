@@ -31,7 +31,7 @@ class CreateOrEditContactRequest extends FormRequest
             'phone_number'    => 'required|numeric|digits_between:10,12',
             'type'            => 'required|min:4|max:25',
             'status'          => 'required|min:1|max:10',
-            'description'     => 'required|min:4|max:255',
+            'description'     => 'nullable|min:4|max:255',
             // 'billing_name'    => 'required|min:4|max:25',
             // 'billing_code'    => 'nullable|min:4|max:10',
             // 'billing_address' => 'nullable|min:4|max:100',

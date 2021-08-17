@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrmController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LeadController;
@@ -29,6 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/leads/{lead}',  [ LeadController::class, 'destroy' ])->name('leads.destroy');
 
     Route::post('/leads-contact-create-update/{lead}', [ ContactController::class, 'createOrUpdateContactLead' ])->name('leads.contact.create.update');
+    Route::post('/lead-document/{lead}',    [ LeadController::class, 'addDocument' ])->name('lead.document');
 
     Route::get('/inbox',    [ InboxController::class, 'index' ])->name('inbox.cur');
 
@@ -38,6 +40,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/quotes/{quote}/edit',  [ QuotationController::class, 'edit' ])     ->name('quotes.edit');
     Route::put('/quotes/{quote}',       [ QuotationController::class, 'update' ])   ->name('quotes.update');
     Route::delete('/quotes/{quote}',    [ QuotationController::class, 'destroy' ])  ->name('quotes.destroy');
+
+    Route::get('/documents', [ DocumentController::class, 'index' ])->name('documents.index');
+    Route::get('/documents/create', [ DocumentController::class, 'create' ])->name('documents.create');
+    Route::post('/documents', [ DocumentController::class, 'store' ])->name('documents.store');
+    Route::get('/documents/{document}/edit', [ DocumentController::class, 'edit' ])->name('documents.edit');
+    Route::put('/documents/{document}', [ DocumentController::class, 'update' ])->name('documents.update');
+    Route::delete('/documents/{document}', [ DocumentController::class, 'destroy' ])->name('documents.destroy');
+    Route::get('/documents-download/{document}', [ DocumentController::class, 'download' ])->name('documents.download');
 
     Route::get('/print/quote/{quote}', [ QuotationController::class, 'printQuote' ])->name('print.quote');
 });
