@@ -39,7 +39,7 @@ class Quote extends Model
     public function scopeSelectTotal($query)
     {
         return $query
-            ->addSelect(DB::raw('(select SUM(quote_items.price * quote_items.quantity + (quote_items.price * (quote_items.tax_amount / 100)))
+            ->addSelect(DB::raw('(select SUM(quote_items.price * quote_items.quantity + (quote_items.price * quote_items.quantity * (quote_items.tax_amount / 100)))
             from `quote_items` where `quotes`.`id` = `quote_items`.`quote_id`) as total'));
     }
 }
