@@ -66,7 +66,7 @@ class QuotationController extends Controller
                     'price' => $item->price,
                     'unity' => $item->unity,
                     'tax_amount' => $item->tax_amount,
-                    'total' => $item->quantity * $item->price + ($item->price * ($item->tax_amount / 100)),
+                    'total' => $item->quantity * $item->price + ($item->price * $item->quantity * ($item->tax_amount / 100)),
                 ]);
             }
         });
@@ -122,7 +122,7 @@ class QuotationController extends Controller
                     'price' => $item->price,
                     'unity' => $item->unity,
                     'tax_amount' => $item->tax_amount,
-                    'total' => $item->quantity * $item->price + ($item->price * ($item->tax_amount / 100)),
+                    'total' => $item->quantity * $item->price + ($item->price * $item->quantity * ($item->tax_amount / 100)),
                 ];
                 
                 $quoteItem = QuoteItem::where('product_id', $item->product_id)
