@@ -160,7 +160,7 @@ class QuotationController extends Controller
 
         foreach ($quote->items as $item) {
             $total += $item->total;
-            $taxes += ($item->tax_amount / 100) * $item->price;
+            $taxes += ($item->tax_amount / 100) * $item->price * $item->quantity;
         }
 
         $pdf = PDF::loadView('pdf.modern-quote', compact('quote', 'total', 'taxes'));

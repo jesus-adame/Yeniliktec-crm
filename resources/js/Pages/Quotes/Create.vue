@@ -201,7 +201,7 @@ export default {
             let countTaxes = 0;
 
             items.value.forEach(item => {
-                countTaxes += (item.tax_amount / 100) * item.price;
+                countTaxes += (item.tax_amount / 100) * item.price * item.quantity;
             });
 
             return countTaxes;
