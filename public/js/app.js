@@ -21460,14 +21460,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var totalTax = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
       var countTaxes = 0;
       items.value.forEach(function (item) {
-        countTaxes += item.tax_amount / 100 * item.price;
+        countTaxes += item.tax_amount / 100 * item.price * item.quantity;
       });
       return countTaxes;
     });
     var total = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
       var countTotals = 0;
       items.value.forEach(function (item) {
-        countTotals += item.subtotal + item.tax_amount / 100 * item.price;
+        countTotals += item.subtotal + item.tax_amount / 100 * item.price * item.quantity;
       });
       return countTotals;
     });
