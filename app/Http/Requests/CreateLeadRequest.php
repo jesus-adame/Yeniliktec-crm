@@ -35,15 +35,28 @@ class CreateLeadRequest extends FormRequest
             'agent'       => 'required|email|exists:users,email|max:200',
             'status'      => 'required|string|max:10',
             'description' => 'required|min:4|max:500',
+            
 
             'contact_name'            => 'required|min:4|max:25',
             'contact_last_name'       => 'required|min:4|max:25',
-            'contact_email'           => 'required|email',
-            'contact_phone_number'    => 'required|numeric|digits_between:10,12',
+            //'contact_email'           => 'required|email',
+            'contact_email' => [
+                'required_without:contact_phone_number',
+                'nullable',
+                'email'
+            ],
+            //'contact_phone_number'    => 'required|numeric|digits_between:10,12',
+            'contact_phone_number' => [
+                'required_without:contact_email',
+                'nullable',
+                'numeric',
+                'digits_between:10,12',
+            ],
             'contact_type'            => 'required|min:4|max:25',
             'contact_status'          => 'required|min:1|max:10',
             'contact_description'     => 'nullable|min:4|max:255',
         ];
+        
     }
 
     /**
