@@ -27,8 +27,17 @@ class CreateOrEditContactRequest extends FormRequest
         return [
             'name'            => ['required', 'min:4', 'max:25', new FullLastNameRule],
             'last_name'       => ['required', 'min:4', 'max:25', new FullLastNameRule],
-            'email'           => 'required|email:rfc,strict,filter',
-            'phone_number'    => 'required|numeric|digits_between:10,12',
+            'email' => [
+                'required_without:phone_number',
+                'nullable',
+                'email'
+            ],
+            'phone_number' => [
+                'required_without:email',
+                'nullable',
+                'numeric',
+                'digits_between:10,12',
+            ],
             'type'            => 'required|min:4|max:25',
             'status'          => 'required|min:1|max:10',
             'description'     => 'nullable|min:4|max:255',
