@@ -20,16 +20,6 @@
                                 <option v-for="lead in leads" :key="lead.id" :value="lead.id">{{ lead.title }}</option>
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contact_email">
-                                Email del contacto
-                            </label>
-                            <input class="shadow appearance-none border w-full
-                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="contact_email"
-                                v-model="form.contact.email"
-                                name="contact_email"
-                                type="text" placeholder="Contact email">
-                        </div>
                     </div>
                     <div class="md:w-1/2 md:px-2">
                         <div class="mb-4">

@@ -47,7 +47,7 @@
             <hr>
             <div class="flex justify-between mt-4">
                 <h3 class="font-bold">Cotizaciones</h3>
-                <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('quotes.create')">Nueva cotización</inertia-link>
+                <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('crm.create.quote', {lead: lead.id})">Nueva cotización</inertia-link>
             </div>
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

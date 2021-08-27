@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateLeadRequest;
-use App\Http\Requests\EditLeadRequest;
+use App\Models\Lead;
 use App\Models\Contact;
 use App\Models\Document;
-use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\EditLeadRequest;
+use App\Http\Requests\CreateLeadRequest;
 
 class LeadController extends Controller
 {
-    public function show($id)
+    public function show($id) 
     {
         $lead = Lead::where('id', $id)
             ->with([
