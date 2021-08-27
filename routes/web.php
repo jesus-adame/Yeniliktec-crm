@@ -29,6 +29,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::put('/leads/{lead}',     [ LeadController::class, 'update' ])->name('leads.update');
     Route::delete('/leads/{lead}',  [ LeadController::class, 'destroy' ])->name('leads.destroy');
 
+    Route::get('/lead-quote/create/{lead}',  [ CrmController::class, 'createQuote' ])->name('crm.create.quote');
+
     Route::post('/leads-contact-create-update/{lead}', [ ContactController::class, 'createOrUpdateContactLead' ])->name('leads.contact.create.update');
     Route::post('/lead-document/{lead}',    [ LeadController::class, 'addDocument' ])->name('lead.document');
 

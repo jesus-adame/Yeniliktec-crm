@@ -6,28 +6,7 @@
         <div class="container-fluid mx-auto my-5">
             <div class="w-full mx-auto container">
                 <form class="bg-white flex flex-wrap shadow-md px-8 pt-6 pb-8 mb-4" @submit="sendForm">
-                    <div class="md:w-1/2 md:px-2">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="lead">
-                                Lead ID
-                            </label>
-                            <select class="shadow appearance-none border w-full
-                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" name="lead" id="lead">
-                                <option value="">- Elegir -</option>
-                                <option v-for="lead in leads" :key="lead.id" :value="lead">{{ lead.name }}</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contact_email">
-                                Email del contacto
-                            </label>
-                            <input class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="contact_email"
-                            name="contact_email"
-                            type="text" placeholder="Contact email">
-                            <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
-                        </div>
-                    </div>
+                    <input type="hidden" name="lead" :value="id">
                     <div class="md:w-1/2 md:px-2">
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
@@ -173,7 +152,7 @@ export default {
         AppLayout,
     },
 
-    props: ['products', 'leads'],
+    props: ['products', 'leads', 'id'],
 
     setup() {
         let items = ref([]);

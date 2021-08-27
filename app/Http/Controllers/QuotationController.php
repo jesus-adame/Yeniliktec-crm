@@ -6,12 +6,10 @@ use App\Models\Lead;
 use App\Models\Quote;
 use App\Models\Product;
 use App\Models\QuoteItem;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Support\Facades\PDF;
-use Illuminate\Support\Collection;
 
 class QuotationController extends Controller
 {
@@ -26,7 +24,7 @@ class QuotationController extends Controller
             ])
             ->select('quotes.*')
             ->selectTotal()
-            ->paginate(15);
+            ->paginate(15); 
         
         return inertia('Quotes/Index', compact('quotes'));
     }
@@ -105,12 +103,14 @@ class QuotationController extends Controller
 
         $itemsJson = $request->only(['items']);
 
-        $items = new Collection(json_decode($itemsJson['items']));
+        $items = collect(json_decode($itemsJson['items']));
 
         DB::transaction(function () use ($form, $items, $quote) {
             $quote->update($form);
 
-            QuoteItem::whereNotIn('id', $items->pluck('id'))->delete();
+            QuoteItem::whereNotIn('id', $items->pluck('id'))
+                ->where('quote_id', $quote->id)
+                ->delete();
             
             foreach ($items as $item) {
                 $itemData = [

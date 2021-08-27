@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Contact;
+use App\Models\Lead;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateQuoteRequest extends FormRequest
@@ -24,8 +24,9 @@ class UpdateQuoteRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+        $lead = Lead::find($this->lead);
         $this->merge([
-            'client_id' => Contact::where('email', $this->contact_email)->first()->id ?? null,
+            'client_id' => $lead->contact_id,
             'lead_id' => $this->lead ?? null,
             'status' => 'active',
         ]);

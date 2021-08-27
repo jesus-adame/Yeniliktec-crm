@@ -17,15 +17,6 @@
                                 <option v-for="lead in leads" :key="lead.id" :value="lead.id">{{ lead.title }}</option>
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contact_email">
-                                Email del contacto
-                            </label>
-                            <input class="shadow appearance-none border w-full
-                                py-2 px-3 text-gray-700 leading-tight focus:outline-none" id="contact_email"
-                                name="contact_email"
-                                type="text" placeholder="Contact email">
-                        </div>
                     </div>
                     <div class="md:w-1/2 md:px-2">
                         <div class="mb-4">
@@ -49,9 +40,12 @@
                             <option value="">- Elegir -</option>
                             <option v-for="product in products" :key="product.id" :value="product">{{ product.name }}</option>
                         </select>
-                        <button type="button"
+                        <button
+                            type="button"
                             class="inline-flex mb-4 items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900"
-                            @click="addItem">Agregar</button>
+                            @click="addItem">
+                            Agregar
+                        </button>
                     </div>
                     <table class="min-w-full divide-y divide-gray-200 mb-5">
                         <thead class="bg-gray-50">
@@ -137,7 +131,9 @@
                                     <button
                                         type="button"
                                         class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                        @click="removeItem(index)">Eliminar</button>
+                                        @click="removeItem(index)">
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
