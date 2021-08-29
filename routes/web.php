@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdsGoogleController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrmController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\WhatsAppController;
 
 Route::redirect('/', '/login', 301);
 
@@ -53,3 +55,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/print/quote/{quote}', [ QuotationController::class, 'printQuote' ])->name('print.quote');
 });
+
+Route::get('/whatsapp/send/{number}', [ WhatsAppController::class, 'sendMessage' ]);
