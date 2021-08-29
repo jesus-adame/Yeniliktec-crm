@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\PhpImapAdapter;
+use App\Services\Contracts\ImapAdapter;
+use App\Services\Contracts\WhatsAppAPI;
+use App\Services\TwillioWhatsApp;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('App\Services\Contracts\ImapAdapter', 'App\Services\PhpImapAdapter');
+        $this->app->singleton(ImapAdapter::class, PhpImapAdapter::class);
+        $this->app->singleton(WhatsAppAPI::class, TwillioWhatsApp::class);
     }
 
     /**
