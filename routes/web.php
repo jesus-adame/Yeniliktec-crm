@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdsGoogleController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrmController;
@@ -62,6 +63,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/documents-download/{document}', [ DocumentController::class, 'download' ])->name('documents.download');
 
     Route::get('/print/quote/{quote}', [ QuotationController::class, 'printQuote' ])->name('print.quote');
+
+    Route::get('/columns',              [ ColumnController::class, 'index' ])->name('columns.index');
+    Route::get('/columns/create',       [ ColumnController::class, 'create' ])->name('columns.create');
+    Route::post('/columns',             [ ColumnController::class, 'store' ])->name('columns.store');
+    Route::get('/columns/{column}/edit', [ ColumnController::class, 'edit' ])->name('columns.edit');
+    Route::put('/columns/{column}',     [ ColumnController::class, 'update' ])->name('columns.update');
+    Route::delete('/columns/{column}',  [ ColumnController::class, 'destroy' ])->name('columns.destroy');
 });
 
 Route::get('/whatsapp/send/{number}', [ WhatsAppController::class, 'sendMessage' ]);

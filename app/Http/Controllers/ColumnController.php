@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Column;
 use Illuminate\Http\Request;
 
 class ColumnController extends Controller
@@ -13,7 +14,8 @@ class ColumnController extends Controller
      */
     public function index()
     {
-        //
+        $columns = Column::paginate(15);
+        return inertia('Columns/Index', compact('columns'));
     }
 
     /**
