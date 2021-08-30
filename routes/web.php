@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdsGoogleController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrmController;
@@ -32,6 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/leads/{lead}',  [ LeadController::class, 'destroy' ])->name('leads.destroy');
 
     Route::get('/lead-quote/create/{lead}',  [ CrmController::class, 'createQuote' ])->name('crm.create.quote');
+    Route::get('/lead-appointment/create/{lead}',  [ CrmController::class, 'createAppointment' ])->name('crm.create.appointment');
 
     Route::post('/leads-contact-create-update/{lead}', [ ContactController::class, 'createOrUpdateContactLead' ])->name('leads.contact.create.update');
     Route::post('/lead-document/{lead}',    [ LeadController::class, 'addDocument' ])->name('lead.document');
@@ -45,6 +48,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::put('/quotes/{quote}',       [ QuotationController::class, 'update' ])   ->name('quotes.update');
     Route::delete('/quotes/{quote}',    [ QuotationController::class, 'destroy' ])  ->name('quotes.destroy');
 
+    Route::get('/appointments',     [ AppointmentController::class, 'index' ])->name('appointments.index');
+    Route::post('/appointments',    [ AppointmentController::class, 'store' ])->name('appointments.store');
+    Route::get('/appointments/{appointment}/edit', [ AppointmentController::class, 'edit' ])->name('appointments.edit');
+    Route::put('/appointments/{appointment}',    [ AppointmentController::class, 'update' ])->name('appointments.update');
+    Route::delete('/appointments/{appointment}',  [ AppointmentController::class, 'destroy' ])->name('appointments.destroy');
+
     Route::get('/documents', [ DocumentController::class, 'index' ])->name('documents.index');
     Route::get('/documents/create', [ DocumentController::class, 'create' ])->name('documents.create');
     Route::post('/documents', [ DocumentController::class, 'store' ])->name('documents.store');
@@ -54,6 +63,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/documents-download/{document}', [ DocumentController::class, 'download' ])->name('documents.download');
 
     Route::get('/print/quote/{quote}', [ QuotationController::class, 'printQuote' ])->name('print.quote');
+
+    Route::get('/columns',              [ ColumnController::class, 'index' ])->name('columns.index');
+    Route::get('/columns/create',       [ ColumnController::class, 'create' ])->name('columns.create');
+    Route::post('/columns',             [ ColumnController::class, 'store' ])->name('columns.store');
+    Route::get('/columns/{column}/edit', [ ColumnController::class, 'edit' ])->name('columns.edit');
+    Route::put('/columns/{column}',     [ ColumnController::class, 'update' ])->name('columns.update');
+    Route::delete('/columns/{column}',  [ ColumnController::class, 'destroy' ])->name('columns.destroy');
 });
 
 Route::get('/whatsapp/send/{number}', [ WhatsAppController::class, 'sendMessage' ]);

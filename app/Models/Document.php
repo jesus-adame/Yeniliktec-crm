@@ -25,6 +25,11 @@ class Document extends Model
         });
     }
 
+    public function getExtensionAttribute()
+    {
+        return pathinfo($this->path, PATHINFO_EXTENSION);
+    }
+
     public function leads()
     {
         return $this->morphedByMany(Lead::class, 'documentable');

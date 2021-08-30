@@ -29,6 +29,7 @@ class LeadController extends Controller
                     $query->withDefault();
                 },
                 'documents',
+                'appointments',
                 'quotes' => function ($query) {
                     $query
                     ->select('quotes.*')

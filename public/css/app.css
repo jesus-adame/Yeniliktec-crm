@@ -33409,6 +33409,31 @@ select {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  transition: all 200ms;
+}
+
+.hover\:scale-85:hover {
+  --tw-scale-x: .85;
+  --tw-scale-y: .85;
+}
+
+.hover\:scale-95:hover {
+  --tw-scale-x: .95;
+  --tw-scale-y: .95;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -196268,4 +196293,3 @@ select {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
-

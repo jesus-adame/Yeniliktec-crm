@@ -39,4 +39,12 @@ class CrmController extends Controller
 
         return inertia('Crm/CreateQuote', compact('products', 'leads', 'id'));
     }
+
+    public function createAppointment($id)
+    {
+        $products = Product::all();
+        $leads = Lead::all();
+
+        return inertia('Crm/CreateAppointment', compact('id'));
+    }
 }
