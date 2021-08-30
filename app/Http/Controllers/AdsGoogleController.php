@@ -23,20 +23,10 @@ class AdsGoogleController extends Controller
      */
     public function generateLead(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->validationRules);
-
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()], 422);
-        }
-        
-        $givenData = $request->only([
-            'campaign_id',
-            'google_key',
-            'user_column_data',
-        ]);
-
-        if ($givenData['google_key'] != config('ads.google_key')) {
-            return response(['message' => 'Forbidden'], 403);
+        try {
+            $givenData = $this->validateRequest($request);
+        } catch (\Throwable $th) {
+            return response(['message' => $th->getMessage()], $th->getCode());
         }
         
         DB::transaction(function () use ($givenData) {
@@ -52,11 +42,35 @@ class AdsGoogleController extends Controller
                 $contact = Contact::create($contactData);
             }
             
-            $lead = Lead::create($this->createLeadData($columns, $contact->id, $givenData['campaign_id']));
-            $lead->save();
+            Lead::create($this->createLeadData($columns, $contact->id, $givenData['campaign_id']));
         });
         
         return response(['message' => 'Lead creado correctamente']);
+    }
+
+    /**
+     * Validate the request
+     */
+    private function validateRequest($request)
+    {
+        $validator = Validator::make($request->all(), $this->validationRules);
+
+        if ($validator->fails()) {
+            $errorMessage = $validator->errors()->all()[0];
+            throw new \Exception($errorMessage, 422);
+        }
+        
+        $givenData = $request->only([
+            'campaign_id',
+            'google_key',
+            'user_column_data',
+        ]);
+
+        if ($givenData['google_key'] != config('ads.google_key')) {
+            throw new \Exception('Forbidden', 403);
+        }
+
+        return $givenData;
     }
 
     /**
