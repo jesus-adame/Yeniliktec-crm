@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-2 shadow bg-white rounded cursor-pointer">
+    <div class="px-4 py-2 shadow bg-white transform hover:scale-95 rounded cursor-pointer transition">
         <div class="flex justify-between items-center pt-1">
             <h2 class="uppercase font-bold">{{ lead.title }}</h2>
             <span class="p-1 rounded-full inline-block w-40 text-center text-white" :style="{ background: statusColors[lead.status]}">{{ lead.status }}</span>

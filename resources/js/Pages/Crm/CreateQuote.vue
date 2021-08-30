@@ -216,8 +216,8 @@ export default {
             try {
                 let response = await axios.post(route('quotes.store'), form);
 
-                __alert_notification(response.data.message)
-                .then(() => Inertia.visit(route('quotes.index')));
+                __alert_notification(response.data.message);
+                Inertia.visit(route('crm.index'))
                 
             } catch (fail) {
                 let errors = Object.values(fail.response.data.errors);

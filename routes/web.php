@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdsGoogleController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrmController;
@@ -32,6 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/leads/{lead}',  [ LeadController::class, 'destroy' ])->name('leads.destroy');
 
     Route::get('/lead-quote/create/{lead}',  [ CrmController::class, 'createQuote' ])->name('crm.create.quote');
+    Route::get('/lead-appointment/create/{lead}',  [ CrmController::class, 'createAppointment' ])->name('crm.create.appointment');
 
     Route::post('/leads-contact-create-update/{lead}', [ ContactController::class, 'createOrUpdateContactLead' ])->name('leads.contact.create.update');
     Route::post('/lead-document/{lead}',    [ LeadController::class, 'addDocument' ])->name('lead.document');
@@ -44,6 +46,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/quotes/{quote}/edit',  [ QuotationController::class, 'edit' ])     ->name('quotes.edit');
     Route::put('/quotes/{quote}',       [ QuotationController::class, 'update' ])   ->name('quotes.update');
     Route::delete('/quotes/{quote}',    [ QuotationController::class, 'destroy' ])  ->name('quotes.destroy');
+
+    Route::get('/appointments',     [ AppointmentController::class, 'index' ])->name('appointments.index');
+    Route::post('/appointments',    [ AppointmentController::class, 'store' ])->name('appointments.store');
+    Route::get('/appointments/{appointment}/edit', [ AppointmentController::class, 'edit' ])->name('appointments.edit');
+    Route::put('/appointments/{appointment}',    [ AppointmentController::class, 'update' ])->name('appointments.update');
+    Route::delete('/appointments/{appointment}',  [ AppointmentController::class, 'destroy' ])->name('appointments.destroy');
 
     Route::get('/documents', [ DocumentController::class, 'index' ])->name('documents.index');
     Route::get('/documents/create', [ DocumentController::class, 'create' ])->name('documents.create');

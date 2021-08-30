@@ -1,5 +1,5 @@
 <template>
-    <dialog-modal :show="showModal" @close="closeModal" maxWidth="4xl">
+    <dialog-modal :show="showModal" @close="closeModal" maxWidth="6xl">
         <template v-slot:title>
             <h2 class="font-bold">{{ lead.title }}</h2>
         </template>
@@ -51,8 +51,8 @@
             </div>
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class=" py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class=" shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
@@ -125,14 +125,86 @@
                     </div>
                 </div>
             </div>
-            <h1 class="font-bold my-5">Documentos</h1>
+            <div class="flex justify-between mt-4">
+                <h3 class="font-bold">Citas</h3>
+                <inertia-link class="p-1 px-3 rounded mb-4 inline-block text-white bg-green-400" :href="route('crm.create.appointment', {lead: lead.id})">Nueva cita</inertia-link>
+            </div>
             <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Titulo
+                                        </th>
+                                        <th scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Descripción
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Inicio
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Final
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="relative px-6 py-3">
+                                            <span class="sr-only">Editar</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="appointment in lead.appointments" :key="appointment.id">
+                                        <td class=" px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                {{ appointment.title }}
+                                            </div>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ appointment.description }}
+                                            </div>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <span class="text-yellow-800 bg-yellow-100 py-1 px-2 rounded-full">
+                                                {{ appointment.start }}
+                                            </span>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <span class="text-yellow-800 bg-yellow-100 py-1 px-2 rounded-full">
+                                                {{ appointment.start }}
+                                            </span>
+                                        </td>
+                                        <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <inertia-link :href="route('appointments.edit', { id: appointment.id })"
+                                                class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 hover:text-indigo-900">
+                                                Editar
+                                            </inertia-link>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="font-bold my-5">Documentos</h3>
+            <div class="flex flex-wrap">
                 <form action="#"
+                    class="lg:w-1/2"
                     method="post"
                     enctype="multipart/form-data"
                     @submit="loadFile">
                     <div class="flex flex-wrap">
-                        <div class="md:w-1/2 mb-4">
+                        <div class="w-full mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                                 Nombre del documento
                             </label>
@@ -141,7 +213,7 @@
                                 name="name"
                                 type="text" placeholder="Nombre">
                         </div>
-                        <div class="md:w-1/2 mb-4">
+                        <div class="w-full mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="lead">
                                 Documento
                             </label>
@@ -153,8 +225,8 @@
                         </div>
                     </div>
                 </form>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                <div class="overflow-x-auto lg:w-1/2">
+                    <table class="w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
@@ -184,9 +256,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="capitalize px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <span class=" px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {{ document.mime_type }}
+                                        {{ document.path.split('.').pop() }}
                                     </span>
                                 </td>
                                 <td class=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -195,7 +267,9 @@
                                         Descargar
                                     </a>
                                     <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                        @click="deleteFile(document.id)">Eliminar</button>
+                                        @click="deleteFile(document.id)">
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

@@ -7,11 +7,11 @@
         </template>
 
         <div class="container-fluid h-full mx-auto sm:px-6 lg:px-8 mt-4">
-            <button class="bg-blue-500 text-white p-2 mb-3 shadow" @click="openRegisterLead">
+            <button class="bg-blue-500 text-white mb-3 btn" @click="openRegisterLead">
                 Registrar seguimiento
             </button>
-            <inertia-link class="bg-gray-800 text-white p-2 mx-2" href="/quotes">Cotizaciones</inertia-link>
-            <inertia-link class="bg-gray-800 text-white p-2 mx-2" href="/documents">Documentos</inertia-link>
+            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2" href="/quotes">Cotizaciones</inertia-link>
+            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2" href="/documents">Documentos</inertia-link>
 
             <div class="flex">
                 <div v-for="board in boards" :key="board.id" class="w-full mb-4">
@@ -19,8 +19,8 @@
                     <hr><br>
                     <div class="flex justify-between w-full h-full overflow-auto" style="height: 65vh">
                         <div v-for="column in board.columns" :key="column.id"
-                            class="uppercase block w-80 p-2 flex-none">
-                            <div class="p-3 shadow-md rounded h-full" :style="{ 'background-color': column.bg_color }">
+                            class="uppercase block w-80 p-2 flex-none h-full">
+                            <div class="p-3 shadow-md rounded" :style="{ 'background-color': column.bg_color }">
                                 <h3 class="text-center" :style="{ color: column.text_color }">{{ column.name }}</h3>
                                 <hr><br>
                                 <div v-for="lead in column.leads" :key="lead.id" class="mb-2">

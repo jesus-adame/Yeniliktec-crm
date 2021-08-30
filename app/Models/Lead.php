@@ -38,6 +38,11 @@ class Lead extends Model
         return $this->hasMany(Quote::class);
     }
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function documents()
     {
         return $this->morphToMany(Document::class, 'documentable');
