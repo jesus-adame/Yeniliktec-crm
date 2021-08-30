@@ -56,16 +56,16 @@ class AdsGoogleController extends Controller
             'billing_name' => $columns->firstWhere('column_id', 'COMPANY_NAME')['string_value'],
         ];
 
-        $leadDescription = $givenData['company_name'] . ' '
+        $leadDescription = $columns->firstWhere('column_id', 'COMPANY_NAME')['string_value'] . ' '
             . $columns->firstWhere('column_id', 'COMPANY_SIZE')['string_value']
-            . ' Campaign ID: '
+            . '. Campaign ID: '
             . $givenData['campaign_id'];
 
         $leadData = [
             'user_id' => $agent->id,
             'agent_id' => $agent->id,
             'column_id' => Column::where('slug', 'inbox')->first()->id,
-            'title' => $givenData['name'] . ' ' . $givenData['last_name'],
+            'title' => $contactData['name'] . ' ' . $contactData['last_name'],
             'description' => $leadDescription,
             'status' => 'pending',
         ];
