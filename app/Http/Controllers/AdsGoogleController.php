@@ -57,7 +57,7 @@ class AdsGoogleController extends Controller
         ];
 
         $leadDescription = $givenData['company_name'] . ' '
-            . $givenData['company_size']
+            . $columns->firstWhere('column_id', 'COMPANY_SIZE')['string_value']
             . ' Campaign ID: '
             . $givenData['campaign_id'];
 
