@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Unity;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,12 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $unities = [
-            [ 'name' => 'hrs'],
-            [ 'name' => 'proyecto' ],
-            [ 'name' => 'semanas' ],
-            [ 'name' => 'meses' ],
-        ];
+        $unities = Unity::getUnities();
 
         return inertia('Products/Create', compact('unities'));
     }
@@ -90,13 +86,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $unities = [
-            [ 'name' => 'hrs'],
-            [ 'name' => 'proyecto' ],
-            [ 'name' => 'semanas' ],
-            [ 'name' => 'meses' ],
-            [ 'name' => 'años' ],
-        ];
+        $unities = Unity::getUnities();
 
         return inertia('Products/Edit', compact('product', 'unities'));
     }

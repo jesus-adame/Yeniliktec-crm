@@ -13,4 +13,17 @@ class Unity extends Model
         'slug',
         'name',
     ];
+
+    private static $unities = [
+        [ 'slug' => 'hours',    'name' => 'hrs'],
+        [ 'slug' => 'proyect',  'name' => 'proyecto' ],
+        [ 'slug' => 'weeks',    'name' => 'semanas' ],
+        [ 'slug' => 'mounths',  'name' => 'meses' ],
+        [ 'slug' => 'years',    'name' => 'años' ],
+    ];
+
+    public static function getUnities()
+    {
+        return self::$unities;
+    }
 }
