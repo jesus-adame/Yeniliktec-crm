@@ -95,6 +95,7 @@ class ProductController extends Controller
             [ 'name' => 'proyecto' ],
             [ 'name' => 'semanas' ],
             [ 'name' => 'meses' ],
+            [ 'name' => 'años' ],
         ];
 
         return inertia('Products/Edit', compact('product', 'unities'));
