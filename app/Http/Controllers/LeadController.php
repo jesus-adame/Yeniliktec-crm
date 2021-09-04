@@ -69,7 +69,9 @@ class LeadController extends Controller
         DB::transaction(function () use ($leadData, $contactData) {
             $lead = Lead::create($leadData);
 
-            $contact = Contact::where('email', $contactData['email'])->first();
+            $contact = Contact::where('name', $contactData['name'])
+                ->where('last_name', $contactData['last_name'])
+                ->first();
 
             if ($contact) {
                 $contact->update($contactData);

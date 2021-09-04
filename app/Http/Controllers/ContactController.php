@@ -12,8 +12,6 @@ class ContactController extends Controller
     {
         $formData = $request->only([
             'lead_id',
-            'name',
-            'last_name',
             'email',
             'phone_number',
             'type',
@@ -21,7 +19,10 @@ class ContactController extends Controller
             'description',
         ]);
 
-        $contact = Contact::updateOrCreate(['email' => $request->email], $formData);
+        $contact = Contact::updateOrCreate([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+        ], $formData);
 
         $lead->contact_id = $contact->id;
         $lead->save();
