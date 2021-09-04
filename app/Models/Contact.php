@@ -29,7 +29,8 @@ class Contact extends Model
         parent::boot();
         self::creating(function ($model) {
             $model->folio = IdGenerator::generate([
-                'table'  => $this->table,
+                'table'  => 'contacts',
+                'field' => 'folio',
                 'length' => 6,
                 'prefix' =>date('y'),
             ]);
