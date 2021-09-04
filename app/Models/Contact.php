@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Contact extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'folio',
         'name',
         'last_name',
         'email',
@@ -21,6 +23,18 @@ class Contact extends Model
         'billing_code',
         'billing_address',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->folio = IdGenerator::generate([
+                'table'  => $this->table,
+                'length' => 6,
+                'prefix' =>date('y'),
+            ]);
+        });
+    }
 
     public function leads()
     {
