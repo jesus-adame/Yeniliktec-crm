@@ -6,8 +6,11 @@
             </h2>
         </template>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 lg:py-8 mt-4 bg-white">
-            <h3 class="text-2xl text-gray-800">Inbox</h3>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 lg:py-8 mt-4 bg-white shadow">
+            <div class="flex justify-between">
+                <h3 class="text-2xl text-gray-800">Inbox</h3>
+                <button class="btn" @click="freshMessages">Refrescar</button>
+            </div>
             <table class="table w-full my-4">
                 <row-item v-for="message in messages" :key="message.id"
                     class="py-3"
@@ -19,7 +22,7 @@
             <button @click="paginate(index + 1)"
                 v-for="(link, index) in links" :key="index"
                 class="btn inline-block mr-2"
-                :class="{ 'bg-gray-200': (currentPage == index + 1) }">
+                :class="{ 'bg-gray-100': (currentPage == index + 1) }">
                 {{ index + 1 }}
                 </button>
         </div>
@@ -63,6 +66,7 @@ export default {
                 this.modalMail = true;
                 Swal.close();
             })
+            .then(this.getMessages)
             .catch(fail => {
                 Swal.fire(fail.response.data.message);
             })
@@ -73,12 +77,17 @@ export default {
         },
 
         paginate(page) {
-            this.getMessages(page)
+            this.currentPage = page;
+            this.freshMessages();
         },
 
-        getMessages(page = '') {
+        freshMessages() {
             Swal.showLoading();
-            axios.get('/imap-messages?page=' + page)
+            return this.getMessages();
+        },
+
+        getMessages() {
+            axios.get('/imap-messages?page=' + this.currentPage)
             .then(response => {
                 this.links = response.data.links;
                 this.messages = response.data.messages;
@@ -93,7 +102,7 @@ export default {
     },
 
     created() {
-        this.getMessages();
+        this.freshMessages();
     }
 }
 </script>

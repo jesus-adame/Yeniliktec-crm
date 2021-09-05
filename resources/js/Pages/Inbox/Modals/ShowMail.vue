@@ -1,8 +1,8 @@
 <template>
-    <dialog-modal :show="showModal" @close="closeModal" maxWidth="3xl">
+    <dialog-modal :show="showModal" @close="closeModal" maxWidth="4xl">
         <template v-slot:title>
-            <h3 class="font-bold">{{ message.from.full }}</h3>
-            <h4>{{ message.subject }}</h4>
+            <h3 class="font-bold">{{ message.subject }}</h3>
+            <h4>Contacto: {{ message.from.full }}</h4>
             <div class="text-gray-500 text-sm">
                 <span class="mr-2">{{ dateFormat(message.date) }}</span>
                 <span class="">{{ timeFormat(message.date) }}</span>
