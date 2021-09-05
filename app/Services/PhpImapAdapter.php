@@ -45,7 +45,7 @@ class PhpImapAdapter implements ImapAdapter
             return [
                 'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
                 'uid' => $message->getUid(),
-                'from' => iconv_mime_decode($message->getFrom()[0]),
+                'from' => iconv('UTF-8', 'ASCII//TRANSLIT', $message->getFrom()[0]),
                 'subject' => str_replace('_', ' ', $subject),
             ];
         });
