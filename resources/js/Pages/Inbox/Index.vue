@@ -22,7 +22,7 @@
             <button @click="paginate(index + 1)"
                 v-for="(link, index) in links" :key="index"
                 class="btn inline-block mr-2"
-                :class="{ 'bg-gray-200': (currentPage == index + 1) }">
+                :class="{ 'bg-gray-100': (currentPage == index + 1) }">
                 {{ index + 1 }}
                 </button>
         </div>

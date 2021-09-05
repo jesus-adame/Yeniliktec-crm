@@ -2,8 +2,8 @@
     <tr class="border border-gray-100" :class="{'bg-gray-50': message.flags.seen}">
         <td class="py-2 px-4">
             <div class="cursor-pointer">
-                <h3 class="font-bold">{{ message.from }}</h3>
-                <h4>{{ message.subject }}</h4>
+                <h3 class="font-bold">{{ message.subject }}</h3>
+                <h4>{{ message.from }}</h4>
                 <span class="text-gray-500 block">{{ fromFormat(message.date) }}</span>
             </div>
         </td>
