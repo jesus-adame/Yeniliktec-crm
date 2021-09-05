@@ -29,24 +29,17 @@ class PhpImapAdapter implements ImapAdapter
             ->all()
             ->setFetchBody(false)
             ->limit(100)
-            ->paginate(5, $page, 'page');
+            ->paginate(10, $page, 'page');
 
         $this->disconnect();
 
         $formated = $mailMessages->map(function ($message) {
-            if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
-                $subject = $this->decodeHeader($message->getSubject()[0]);
-            }
-            
-            if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
-                $subject = mb_convert_encoding($message->getSubject()[0], "UTF-8", ["ASCII", 'UTF-8']);
-            }
-
             return [
                 'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
                 'uid' => $message->getUid(),
                 'from' => $this->decodeHeader($message->getFrom()[0]->full),
-                'subject' => str_replace('_', ' ', $subject),
+                'subject' => str_replace('_', ' ', $this->decodeHeader($message->getSubject()[0])),
+                'flags' => $message->flags,
             ];
         });
 
@@ -62,15 +55,7 @@ class PhpImapAdapter implements ImapAdapter
     {
         //Get INBOX Mailboxes
         $mailFolder = $this->getFolder($inboxPath);
-        $message = $mailFolder->query()->getMessageByUid($messageId);   
-
-        if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
-            $subject = $this->decodeHeader($message->getSubject()[0]);
-        }
-        
-        if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
-            $subject = mb_convert_encoding($message->getSubject()[0], "UTF-8", ["ASCII", 'UTF-8']);
-        }
+        $message = $mailFolder->query()->markAsRead()->getMessageByUid($messageId);
 
         return [
             'from' => [
@@ -82,8 +67,8 @@ class PhpImapAdapter implements ImapAdapter
             ],
             'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
             'uid' => $message->getUid(),
-            'subject' => str_replace('_', ' ', $subject),
-            'body' => $message->getHTMLBody(true),
+            'subject' => str_replace('_', ' ', $this->decodeHeader($message->getSubject()[0])),
+            'body' => $message->getHTMLBody(true) ?? $message->getRawBody(),
             'flags' => $message->flags
         ];
     }
@@ -109,8 +94,6 @@ class PhpImapAdapter implements ImapAdapter
     private function decodeHeader($string)
     {
         mb_internal_encoding('UTF-8');
-        $string = mb_convert_encoding($string, 'UTF-8');
-        logs()->info($string . ' ' . mb_detect_encoding($string));
 
         if (mb_detect_encoding($string) == 'ASCII') {
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
