@@ -111,8 +111,8 @@ class PhpImapAdapter implements ImapAdapter
         mb_internal_encoding('UTF-8');
         $string = mb_convert_encoding($string, 'UTF-8');
         logs()->info($string . ' ' . mb_detect_encoding($string));
-        
-        if (mb_detect_encoding($string)) {
+
+        if (mb_detect_encoding($string) == 'ASCII') {
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
         } else {
             return $string;
