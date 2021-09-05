@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Contracts\ImapAdapter;
 use Illuminate\Http\Request;
+use App\Services\PhpImapAdapter;
+use App\Services\Contracts\ImapAdapter;
 
 class InboxController extends Controller
 {
@@ -22,9 +23,11 @@ class InboxController extends Controller
     public function getMessages()
     {
         $page = request()->input('page');
+        $account = request()->input('account');
 
-        $IMAPmessages = $this->client->getInboxMessages($page);
-
+        $client = $this->getClient($account);
+        $IMAPmessages = $client->getInboxMessages($page);
+        
         $messages = array_reverse($IMAPmessages[0]->toArray());
         $links = array_values($IMAPmessages[1]->elements[0]);
         $currentPage = $IMAPmessages[1]->paginator->currentPage();
@@ -34,7 +37,21 @@ class InboxController extends Controller
 
     public function show($mesageId)
     {
-        $message = $this->client->showMessage($mesageId);
+        $account = request()->input('account');
+
+        $client = $this->getClient($account);
+        $message = $client->showMessage($mesageId);
+
         return response()->json(compact('message'));
+    }
+
+    private function getClient($account)
+    {
+        if ($account == 'contact') {
+            $client = new PhpImapAdapter($account);
+        } else {
+            $client = $this->client;
+        }
+        return $client;
     }
 }

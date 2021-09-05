@@ -1,9 +1,16 @@
 <template>
     <app-layout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Correos
-            </h2>
+            <div class="flex justify-between items-center max-w-7xl mx-auto">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Correos
+                </h2>
+                <select name="account" id="account" v-model="account" @change="freshMessages">
+                    <option value="">- Eligir -</option>
+                    <option value="ventas">Ventas</option>
+                    <option value="contact">Contacto</option>
+                </select>
+            </div>
         </template>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 lg:py-8 mt-4 bg-white shadow">
@@ -54,13 +61,14 @@ export default {
             messages: [],
             links: [],
             currentPage: 1,
+            account: 'ventas'
         }
     },
 
     methods: {
         openMail(message) {
             Swal.showLoading();
-            axios.get('/imap-messages/' + message.uid)
+            axios.get('/imap-messages/' + message.uid + '?account=' + this.account)
             .then(response => {
                 this.fullMessage = response.data.message;
                 this.modalMail = true;
@@ -87,7 +95,7 @@ export default {
         },
 
         getMessages() {
-            axios.get('/imap-messages?page=' + this.currentPage)
+            axios.get('/imap-messages?page=' + this.currentPage + '&account=' + this.account)
             .then(response => {
                 this.links = response.data.links;
                 this.messages = response.data.messages;

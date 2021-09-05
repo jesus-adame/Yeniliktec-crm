@@ -73,17 +73,18 @@ return [
             'password' => 'PASSWORD',
             'authentication' => 'oauth',
         ],
-
-        'another' => [ // account identifier
-            'host' => '',
-            'port' => 993,
-            'encryption' => false,
-            'validate_cert' => true,
-            'username' => '',
-            'password' => '',
-            'authentication' => null,
-        ]
         */
+
+        'contact' => [ // account identifier
+            'host' => env('IMAP_HOST', 'localhost'),
+            'port' => env('IMAP_PORT', 993),
+            'protocol' => env('IMAP_PROTOCOL', 'imap'),
+            'encryption' => env('IMAP_ENCRYPTION', 'ssl'),
+            'validate_cert' => env('IMAP_VALIDATE_CERT', true),
+            'username' => env('IMAP_CONTACT_USERNAME', ''),
+            'password' => env('IMAP_CONTACT_PASSWORD', ''),
+            'authentication' => env('IMAP_AUTHENTICATION', null),
+        ],
     ],
 
     /*
