@@ -9,9 +9,10 @@ class PhpImapAdapter implements ImapAdapter
 {
     protected $client;
 
-    public function __construct()
+    public function __construct($imapAccount = 'default')
     {
-        $this->client = new ClientManager(base_path('/config/imap.php'));
+        $this->client = (new ClientManager(base_path('/config/imap.php')))
+            ->account($imapAccount);
     }
 
     /**
@@ -68,7 +69,7 @@ class PhpImapAdapter implements ImapAdapter
             'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
             'uid' => $message->getUid(),
             'subject' => str_replace('_', ' ', $this->decodeHeader($message->getSubject()[0])),
-            'body' => $message->getHTMLBody(true) ?? $message->getRawBody(),
+            'body' => $message->getHTMLBody(true) ?? $message->getTextBody(),
             'flags' => $message->flags
         ];
     }
