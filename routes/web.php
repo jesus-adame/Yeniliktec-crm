@@ -40,6 +40,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/lead-document/{lead}',    [ LeadController::class, 'addDocument' ])->name('lead.document');
 
     Route::get('/inbox',    [ InboxController::class, 'index' ])->name('inbox.cur');
+    Route::get('/imap-messages', [ InboxController::class, 'getMessages' ])->name('inbox.messages');
+    Route::get('/imap-messages/{message}', [ InboxController::class, 'show' ])->name('inbox.show');
 
     Route::get('/quotes',               [ QuotationController::class, 'index' ])    ->name('quotes.index');
     Route::get('/quotes/create',        [ QuotationController::class, 'create' ])   ->name('quotes.create');
