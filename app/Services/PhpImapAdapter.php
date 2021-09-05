@@ -108,7 +108,7 @@ class PhpImapAdapter implements ImapAdapter
 
     private function decodeHeader($string)
     {
-        return iconv_mime_decode($string, 0, 'UTF-8');
+        return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
     }
 
     private function connect()
