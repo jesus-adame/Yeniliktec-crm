@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\MailLeadsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\WhatsAppController;
@@ -42,6 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/inbox',    [ InboxController::class, 'index' ])->name('inbox.cur');
     Route::get('/imap-messages', [ InboxController::class, 'getMessages' ])->name('inbox.messages');
     Route::get('/imap-messages/{message}', [ InboxController::class, 'show' ])->name('inbox.show');
+
+    Route::post('/email-leads/{message}', [ MailLeadsController::class, 'createLead' ])->name('emails.leads.store');
 
     Route::get('/quotes',               [ QuotationController::class, 'index' ])    ->name('quotes.index');
     Route::get('/quotes/create',        [ QuotationController::class, 'create' ])   ->name('quotes.create');

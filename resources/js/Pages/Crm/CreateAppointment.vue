@@ -25,7 +25,7 @@
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 focus:outline-none mr-4" type="submit">
                             Registrar
                         </button>
-                        <inertia-link :href="route('quotes.index')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 focus:outline-none">
+                        <inertia-link :href="route('crm.index')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 focus:outline-none">
                             Cancelar
                         </inertia-link>
                     </div>

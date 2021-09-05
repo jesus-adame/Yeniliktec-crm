@@ -34629,10 +34629,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Jetstream_DialogModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Jetstream/DialogModal.vue */ "./resources/js/Jetstream/DialogModal.vue");
 /* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['message', 'showModal'],
+  props: ['message', 'showModal', 'account'],
   emits: ['closeModal'],
   components: {
     DialogModal: _Jetstream_DialogModal_vue__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -34647,6 +34653,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     timeFormat: function timeFormat(date) {
       return moment(date).format('h:mm a');
+    },
+    createLead: function createLead() {
+      var _this = this;
+
+      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().showLoading();
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/email-leads/' + this.message.uid, {
+        account: this.account
+      }).then(function (response) {
+        __alert_notification(response.data.message);
+
+        _this.$inertia.visit('/');
+      })["catch"](function (fail) {
+        console.log(fail);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire(fail.response.data.message);
+      });
     }
   }
 });
@@ -39923,7 +39944,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, _hoisted_6, _hoisted_7, _hoisted_8, _hoisted_9, _hoisted_10, _hoisted_11, _hoisted_12, _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
-        href: _ctx.route('quotes.index'),
+        href: _ctx.route('crm.index'),
         "class": "bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 focus:outline-none"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -41875,10 +41896,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_show_mail, {
         showModal: $data.modalMail,
         message: $data.fullMessage,
+        account: $data.account,
         onCloseModal: $options.closeMail
       }, null, 8
       /* PROPS */
-      , ["showModal", "message", "onCloseModal"])];
+      , ["showModal", "message", "account", "onCloseModal"])];
     }),
     _: 1
     /* STABLE */
@@ -41914,7 +41936,25 @@ var _hoisted_4 = {
   "class": ""
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cerrar");
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex items-center"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  "aria-hidden": "true",
+  focusable: "false",
+  "data-prefix": "fas",
+  "data-icon": "id-badge",
+  "class": "svg-inline--fa fa-id-badge w-2 mr-1",
+  role: "img",
+  viewBox: "0 0 384 512"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("path", {
+  fill: "currentColor",
+  d: "M336 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM144 32h96c8.8 0 16 7.2 16 16s-7.2 16-16 16h-96c-8.8 0-16-7.2-16-16s7.2-16 16-16zm48 128c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zm112 236.8c0 10.6-10 19.2-22.4 19.2H102.4C90 416 80 407.4 80 396.8v-19.2c0-31.8 30.1-57.6 67.2-57.6h5c12.3 5.1 25.7 8 39.8 8s27.6-2.9 39.8-8h5c37.1 0 67.2 25.8 67.2 57.6v19.2z"
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Crear lead ")], -1
+/* HOISTED */
+);
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cerrar");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SecondaryButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SecondaryButton");
@@ -41939,17 +41979,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+        "class": "py-4",
         innerHTML: $props.message.body
       }, null, 8
       /* PROPS */
       , ["innerHTML"])];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SecondaryButton, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+        "class": "btn bg-blue-400 text-white mr-2",
+        title: "Crear lead de este correo",
+        onClick: _cache[1] || (_cache[1] = function () {
+          return $options.createLead && $options.createLead.apply($options, arguments);
+        })
+      }, [_hoisted_5]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SecondaryButton, {
         onClick: $options.closeModal
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_5];
+          return [_hoisted_6];
         }),
         _: 1
         /* STABLE */

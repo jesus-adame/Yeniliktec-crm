@@ -70,6 +70,7 @@ class PhpImapAdapter implements ImapAdapter
             'uid' => $message->getUid(),
             'subject' => str_replace('_', ' ', $this->decodeHeader($message->getSubject()[0])),
             'body' => $message->getHTMLBody(true) ?? $message->getTextBody(),
+            'body_plain' => $message->getTextBody(),
             'flags' => $message->flags
         ];
     }
