@@ -136,7 +136,7 @@ return [
         'fetch_body' => true,
         'fetch_flags' => true,
         'message_key' => 'list',
-        'fetch_order' => 'asc',
+        'fetch_order' => 'desc',
         'dispositions' => ['attachment', 'inline'],
         'common_folders' => [
             "root" => "INBOX",

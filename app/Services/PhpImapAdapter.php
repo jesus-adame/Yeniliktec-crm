@@ -17,10 +17,8 @@ class PhpImapAdapter implements ImapAdapter
     /**
      * Return all inbox messages
      */
-    public function getInboxMessages($days = 30, $inboxPath = 'INBOX')
+    public function getInboxMessages($page = null, $inboxPath = 'INBOX')
     {
-        $sinceDate = now()->subDays($days);
-
         $this->connect();
 
         //Get INBOX Mailboxes
@@ -28,23 +26,31 @@ class PhpImapAdapter implements ImapAdapter
 
         //Get all Messages of the current Mailbox $mailFolders
         $mailMessages = $mailFolder->query()
-            ->since($sinceDate)
-            ->limit(50)
-            ->get();
+            ->all()
+            ->setFetchBody(false)
+            ->limit(100)
+            ->paginate(5, $page, 'page');
 
         $this->disconnect();
 
         $formated = $mailMessages->map(function ($message) {
+            if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
+                $subject = iconv_mime_decode($message->getSubject()[0], 0, 'UTF-8');
+            }
+            
+            if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
+                $subject = mb_convert_encoding($message->getSubject()[0], "UTF-8", ["ASCII", 'UTF-8']);
+            }
+
             return [
                 'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
                 'uid' => $message->getUid(),
-                'from' => $message->getFrom()[0],
-                'subject' => $message->getSubject()[0],
-                'body' => $message->getHTMLBody(true),
+                'from' => iconv_mime_decode($message->getFrom()[0]),
+                'subject' => str_replace('_', ' ', $subject),
             ];
         });
 
-        return $formated->sortDesc();
+        return [$formated, $mailMessages->links()];
     }
 
     public function writeMessage($message)
@@ -52,9 +58,34 @@ class PhpImapAdapter implements ImapAdapter
         # code...
     }
 
-    public function showMessage($messageId)
+    public function showMessage($messageId, $inboxPath = 'INBOX')
     {
-        # code...
+        //Get INBOX Mailboxes
+        $mailFolder = $this->getFolder($inboxPath);
+        $message = $mailFolder->query()->getMessageByUid($messageId);   
+
+        if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
+            $subject = iconv_mime_decode($message->getSubject()[0], 0, 'UTF-8');
+        }
+        
+        if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
+            $subject = mb_convert_encoding($message->getSubject()[0], "UTF-8", ["ASCII", 'UTF-8']);
+        }
+
+        return [
+            'from' => [
+                'personal' => iconv_mime_decode($message->getFrom()[0]->personal),
+                'mailbox' => $message->getFrom()[0]->mailbox,
+                'host' => $message->getFrom()[0]->host,
+                'mail' => $message->getFrom()[0]->mail,
+                'full' => iconv_mime_decode($message->getFrom()[0]->full),
+            ],
+            'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
+            'uid' => $message->getUid(),
+            'subject' => str_replace('_', ' ', $subject),
+            'body' => $message->getHTMLBody(true),
+            'flags' => $message->flags
+        ];
     }
 
     public function moveMessage($messageId)
