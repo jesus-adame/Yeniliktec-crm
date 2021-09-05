@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 lg:py-8 mt-4 bg-white">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 lg:py-8 mt-4 bg-white shadow">
             <div class="flex justify-between">
                 <h3 class="text-2xl text-gray-800">Inbox</h3>
                 <button class="btn" @click="freshMessages">Refrescar</button>

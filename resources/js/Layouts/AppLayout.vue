@@ -234,6 +234,10 @@
             <main>
                 <slot></slot>
             </main>
+
+            <footer class="mt-4 text-center p-4 text-gray-500">
+                <small>Yeniliktec all rights reserved</small>
+            </footer>
         </div>
     </div>
 </template>
