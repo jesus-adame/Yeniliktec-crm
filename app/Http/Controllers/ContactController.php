@@ -12,12 +12,21 @@ class ContactController extends Controller
     {
         $formData = $request->only([
             'lead_id',
-            'email',
             'phone_number',
             'type',
             'status',
             'description',
         ]);
+
+        $emailExist = Contact::where('email', $request->email)->get();
+
+        if (count($emailExist)) {
+            $formData['name'] = $request->name;
+            $formData['last_name'] = $request->last_name;
+
+            $emailExist[0]->updated($formData);
+            return response(['message' => 'Contacto actualizado correctamente.']);
+        }
 
         $contact = Contact::updateOrCreate([
             'name' => $request->name,

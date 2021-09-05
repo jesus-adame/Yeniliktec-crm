@@ -35,12 +35,12 @@ class InboxController extends Controller
         return response(compact('messages', 'links', 'currentPage'));
     }
 
-    public function show($mesageId)
+    public function show($messageId)
     {
         $account = request()->input('account');
 
         $client = $this->getClient($account);
-        $message = $client->showMessage($mesageId);
+        $message = $client->showMessage($messageId);
 
         return response()->json(compact('message'));
     }

@@ -33,7 +33,11 @@
                 {{ index + 1 }}
                 </button>
         </div>
-        <show-mail :showModal="modalMail" :message="fullMessage" @closeModal="closeMail"></show-mail>
+        <show-mail
+            :showModal="modalMail"
+            :message="fullMessage"
+            :account="account"
+            @closeModal="closeMail"></show-mail>
     </app-layout>
 </template>
 

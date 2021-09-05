@@ -34,7 +34,9 @@ class AdsGoogleController extends Controller
 
             $contactData = $this->createContactData($columns);
             
-            $contact = Contact::where('email', $contactData['email'])->first();
+            $contact = Contact::where('name', $contactData['name'])
+                ->where('last_name', $contactData['last_name'])
+                ->first();
             
             if ($contact) {
                 $contact->update($contactData);
