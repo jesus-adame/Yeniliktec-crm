@@ -35,7 +35,7 @@ class PhpImapAdapter implements ImapAdapter
 
         $formated = $mailMessages->map(function ($message) {
             if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
-                $subject = iconv_mime_decode($message->getSubject()[0], 0, 'UTF-8');
+                $subject = $this->decodeHeader($message->getSubject()[0]);
             }
             
             if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
@@ -45,7 +45,7 @@ class PhpImapAdapter implements ImapAdapter
             return [
                 'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
                 'uid' => $message->getUid(),
-                'from' => iconv('UTF-8', 'ASCII//TRANSLIT', $message->getFrom()[0]),
+                'from' => $this->decodeHeader($message->getFrom()[0]->full),
                 'subject' => str_replace('_', ' ', $subject),
             ];
         });
@@ -65,7 +65,7 @@ class PhpImapAdapter implements ImapAdapter
         $message = $mailFolder->query()->getMessageByUid($messageId);   
 
         if (mb_detect_encoding($message->getSubject()[0]) == 'ASCII') {
-            $subject = iconv_mime_decode($message->getSubject()[0], 0, 'UTF-8');
+            $subject = $this->decodeHeader($message->getSubject()[0]);
         }
         
         if (mb_detect_encoding($message->getSubject()[0]) == 'UTF-8') {
@@ -74,11 +74,11 @@ class PhpImapAdapter implements ImapAdapter
 
         return [
             'from' => [
-                'personal' => iconv_mime_decode($message->getFrom()[0]->personal),
+                'personal' => $this->decodeHeader($message->getFrom()[0]->personal),
                 'mailbox' => $message->getFrom()[0]->mailbox,
                 'host' => $message->getFrom()[0]->host,
                 'mail' => $message->getFrom()[0]->mail,
-                'full' => iconv_mime_decode($message->getFrom()[0]->full),
+                'full' => $this->decodeHeader($message->getFrom()[0]->full),
             ],
             'date' => $message->getDate()[0]->format('Y-m-d H:m:s'),
             'uid' => $message->getUid(),
@@ -104,6 +104,11 @@ class PhpImapAdapter implements ImapAdapter
     private function getFolder($inboxPath)
     {
         return $this->client->getFolder($inboxPath);
+    }
+
+    private function decodeHeader($string)
+    {
+        return iconv_mime_decode($string, 0, 'UTF-8');
     }
 
     private function connect()
