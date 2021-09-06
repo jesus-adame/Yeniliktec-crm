@@ -1,10 +1,13 @@
 <template>
     <div class="px-4 py-2 shadow bg-white transform hover:scale-95 rounded cursor-pointer transition">
-        <div class="flex justify-between items-center pt-1">
-            <h2 class="uppercase font-bold">{{ lead.title }}</h2>
-            <span class="p-1 rounded-full inline-block w-40 text-center text-white" :style="{ background: statusColors[lead.status]}">{{ lead.status }}</span>
+        <div class="flex justify-between items-center py-1">
+            <h2 class="uppercase font-bold text-sm">{{ lead.title }}</h2>
+            <span class="text-xs py-1 px-2 rounded-full inline-block text-center text-white"
+                :style="{ background: statusColors[lead.status]}">
+                {{ lead.status }}
+            </span>
         </div>
-        <div>
+        <div class="text-xs mt-1">
             {{ lead.description }}
         </div>
         <small class="text-gray-400">{{ dateFormat(lead.created_at) }}</small>
