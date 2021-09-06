@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <div class="container-fluid h-full mx-auto sm:px-6 lg:px-8 mt-4">
+        <div class="container-fluid h-full mx-auto px-2 sm:px-6 lg:px-8 mt-4">
             <button class="bg-blue-500 text-white mb-3 btn" @click="openRegisterLead">
                 Registrar seguimiento
             </button>
