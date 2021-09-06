@@ -40811,10 +40811,10 @@ var _hoisted_1 = {
   "class": "font-bold"
 };
 var _hoisted_2 = {
-  "class": "flex"
+  "class": "flex flex-wrap"
 };
 var _hoisted_3 = {
-  "class": "p-2 w-1/2"
+  "class": "p-2 w-full lg:w-1/2"
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
@@ -40884,7 +40884,7 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_15 = {
-  "class": "p-2 w-1/2"
+  "class": "p-2 w-full lg:w-1/2"
 };
 
 var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
