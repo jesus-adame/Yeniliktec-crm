@@ -10,6 +10,19 @@
         </template>
         <template v-slot:content>
             <div class="py-4" v-html="message.body"></div>
+            <div v-if="message.attachments.length">
+                <h4 class="font-bold py-2">Adjuntos</h4>
+                <div class="flex">
+                    <div v-for="attachment in message.attachments" :key="attachment.id"
+                        class="file p-2 border border-gray-200 shadow">
+                        <a class="block mb-2" :href="'/storage' + attachment.img_src" target="_blank">{{ attachment.name }}</a>
+                        <div class="flex space-x-2">
+                            <a class="block btn w-full" :href="'/storage' + attachment.img_src" target="_blank">Ver</a>
+                            <a class="block btn bg-blue-400 text-white w-full" :href="'/storage' + attachment.img_src" target="_blank" download="download">Descargar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </template>
         <template v-slot:footer>
             <button class="btn bg-blue-400 text-white mr-2" title="Crear lead de este correo"
