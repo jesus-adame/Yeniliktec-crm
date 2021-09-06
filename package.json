@@ -34,6 +34,7 @@
         "@fullcalendar/vue3": "^5.9.0",
         "moment": "^2.29.1",
         "numeral": "^2.0.6",
-        "sweetalert2": "^11.0.20"
+        "sweetalert2": "^11.0.20",
+        "vuedraggable": "^4.1.0"
     }
 }

@@ -23,9 +23,15 @@
                             <div class="p-3 shadow-md rounded" :style="{ 'background-color': column.bg_color }">
                                 <h3 class="text-center" :style="{ color: column.text_color }">{{ column.name }}</h3>
                                 <hr><br>
-                                <div v-for="lead in column.leads" :key="lead.id" class="mb-2">
-                                    <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
-                                </div>
+
+                                <!-- Draggable lead -->
+                                <draggable item-key="id" v-model="column.leads" group="leads"
+                                    @update="moveLead"
+                                    :component-data="{name:'fade'}">
+                                    <template #item="{element}">
+                                        <lead-card class="mb-2" :lead="element" @click="openLead(element)"></lead-card>
+                                    </template>
+                                </draggable>
                             </div>
                         </div>
                     </div>
@@ -54,9 +60,9 @@ import ShowLead from './Modals/ShowLead.vue';
 import LeadCard from './Components/LeadCard.vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import draggable from 'vuedraggable';
 
 export default {
-
     inheritAttrs: false,
 
     components: {
@@ -65,6 +71,7 @@ export default {
         ShowLead,
         RegisterLead,
         LeadCard,
+        draggable,
     },
 
     props: {
@@ -104,6 +111,10 @@ export default {
                     title: fail.response.data.message
                 });
             }
+        },
+
+        moveLead(element) {
+            console.log(element);
         },
 
         closeLead() {

@@ -13,7 +13,7 @@
         <label for="title">Teléfono*</label>
         <div class="flex items-center space-x-2">
             <Input style="width: 60% !important;" name="phone_number" v-model="form.phone_number"/>
-            <div class="flex justify-between flex-auto">
+            <div class="flex flex-wrap justify-between flex-auto">
                 <a class="bg-blue-500 text-white rounded flex justify-around items-center py-1 px-2 mx-auto uppercase text-xs font-bold"
                 :href="'tel:' + form.phone_number">
                     <figure class="w-3 mr-1">
