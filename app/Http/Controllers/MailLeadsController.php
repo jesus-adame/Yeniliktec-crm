@@ -37,7 +37,7 @@ class MailLeadsController extends Controller
             'agent_id' => auth()->user()->id,
             'column_id' => Column::where('slug', 'inbox')->first()->id ?? null,
             'title' => $message['subject'],
-            'description' => $message['body_plain'],
+            'description' => $message['body_plain'] ?? $message['subject'],
             'status' => 'pending',
         ];
 

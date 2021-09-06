@@ -6,7 +6,7 @@
 
         <template v-slot:content>
             <div class="flex">
-                <div class="p-2">
+                <div class="p-2 w-1/2">
                     <label for="title">Título*</label>
                     <Input v-model="form.title" name="title"/>
 
@@ -40,7 +40,7 @@
                     <textarea class="w-full" name="description" rows="3" v-model="form.description"></textarea>
                 </div>
 
-                <div class="p-2">
+                <div class="p-2 w-1/2">
                     <contact-card :contact="form.contact" :lead="lead"></contact-card>
                 </div>
             </div>

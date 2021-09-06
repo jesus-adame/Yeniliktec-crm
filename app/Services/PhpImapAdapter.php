@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-use App\Services\Contracts\ImapAdapter;
 use Webklex\PHPIMAP\ClientManager;
+use Illuminate\Support\Facades\File;
+use App\Services\Contracts\ImapAdapter;
+use Illuminate\Support\Facades\Storage;
 
 class PhpImapAdapter implements ImapAdapter
 {
@@ -57,6 +59,25 @@ class PhpImapAdapter implements ImapAdapter
         //Get INBOX Mailboxes
         $mailFolder = $this->getFolder($inboxPath);
         $message = $mailFolder->query()->markAsRead()->getMessageByUid($messageId);
+        $attachments = collect();
+
+        if ($message->hasAttachments()) {
+            foreach ($message->getAttachments() as $attachment) {
+                $filePath = $this->getAttachmentsFolder();
+                $attachment->save($filePath);
+
+                $attachments->push([
+                    'id' => $attachment->get('id'),
+                    'name' => $attachment->getName(),
+                    'mime' => $attachment->getMimeType(),
+                    'content_type' => $attachment->get('content_type'),
+                    'img_src' => '/attachments/' . $attachment->getName(),
+                    'type' => $attachment->get('type'),
+                    'extension' => $attachment->getExtension(),
+                    'size' => $attachment->get('size'),
+                ]);
+            }
+        }
 
         return [
             'from' => [
@@ -71,7 +92,8 @@ class PhpImapAdapter implements ImapAdapter
             'subject' => str_replace('_', ' ', $this->decodeHeader($message->getSubject()[0])),
             'body' => $message->getHTMLBody(true) ?? $message->getTextBody(),
             'body_plain' => $message->getTextBody(),
-            'flags' => $message->flags
+            'flags' => $message->flags,
+            'attachments' => $attachments,
         ];
     }
 
@@ -102,6 +124,15 @@ class PhpImapAdapter implements ImapAdapter
         } else {
             return $string;
         }
+    }
+
+    private function getAttachmentsFolder()
+    {
+        $attachmentsPath = storage_path('app/public/attachments/');
+        if (!File::exists($attachmentsPath)) {
+            File::makeDirectory($attachmentsPath);
+        }
+        return $attachmentsPath;
     }
 
     private function connect()
