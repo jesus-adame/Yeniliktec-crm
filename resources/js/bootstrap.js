@@ -18,6 +18,8 @@ window.numeral = require('numeral');
 
 window.numeral.defaultFormat('0,0.00');
 
+window.dragula = require('dragula');
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

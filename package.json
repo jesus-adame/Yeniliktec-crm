@@ -32,6 +32,7 @@
         "@fullcalendar/daygrid": "^5.9.0",
         "@fullcalendar/interaction": "^5.9.0",
         "@fullcalendar/vue3": "^5.9.0",
+        "dragula": "^3.7.3",
         "moment": "^2.29.1",
         "numeral": "^2.0.6",
         "sweetalert2": "^11.0.20",

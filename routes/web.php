@@ -22,6 +22,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/crm', [ CrmController::class, 'index' ])->name('crm.index');
 
+    Route::put('/crm-move-lead/{lead}', [CrmController::class, 'changeLeadFase'])->name('crm.move.lead');
+
     Route::get('/productos',                [ ProductController::class, 'index' ])  ->name('products.index');
     Route::get('/productos/crear',          [ ProductController::class, 'create' ]) ->name('products.create');
     Route::post('/productos',               [ ProductController::class, 'store' ])  ->name('products.store');
