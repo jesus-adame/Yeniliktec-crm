@@ -1,7 +1,20 @@
 <template>
     <dialog-modal :show="showModal" @close="closeModal" maxWidth="6xl">
         <template v-slot:title>
-            <h2 class="font-bold">{{ lead.title }}</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="font-bold">{{ lead.title }}</h2>
+                <select class="border w-60 my-1 p-2 border-gray-500 focus:ring focus:ring-indigo-200 shadow-sm"
+                    name="status"
+                    v-model="form.column_id"
+                    @change="moveLead">
+                    <option value="">- Elegir -</option>
+                    <option
+                        v-for="column in columns" :key="column.id"
+                        :value="column.id">
+                        {{ column.name }}
+                    </option>
+                </select>
+            </div>
         </template>
 
         <template v-slot:content>
@@ -22,18 +35,6 @@
                         <option value="pending">Pendiente</option>
                         <option value="in-process">En proceso</option>
                         <option value="finished">Terminado</option>
-                    </select>
-
-                    <label for="title">Fase*</label>
-                    <select class="border my-1 p-1 border-gray-500 focus:ring focus:ring-indigo-200 shadow-sm w-full"
-                        name="status"
-                        v-model="form.column_id">
-                        <option value="">- Elegir -</option>
-                        <option
-                            v-for="column in columns" :key="column.id"
-                            :value="column.id">
-                            {{ column.name }}
-                        </option>
                     </select>
 
                     <label for="title">Descripción</label>
@@ -433,6 +434,31 @@ export default {
             }
         }
 
+        const moveLead = (e) => {
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Está seguro?',
+                showCancelButton: true,
+            })
+            .then(click => {
+                if (click.isConfirmed) {
+                    axios.put(route('crm.move.lead', {lead: lead.value.id}), {
+                        'column_id': e.target.value
+                    })
+                    .then(response => {
+                        closeModal();
+                        emit('leadRegistered');
+                        __alert_notification(response.data.message);
+                    })
+                    .catch(fail => {
+                        __alert_notification(fail.response.data.message, 'error');
+                    })
+                } else {
+                    form.column_id = lead.value.column_id;
+                }
+            })
+        }
+
         return {
             contact,
             columns,
@@ -445,6 +471,7 @@ export default {
             formatNumber,
             loadFile,
             deleteFile,
+            moveLead,
         }
     }
 }

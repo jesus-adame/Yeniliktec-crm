@@ -23,15 +23,11 @@
                             <div class="p-3 shadow-md rounded" :style="{ 'background-color': column.bg_color }">
                                 <h3 class="text-center" :style="{ color: column.text_color }">{{ column.name }}</h3>
                                 <hr><br>
-
-                                <!-- Draggable lead -->
-                                <draggable item-key="id" v-model="column.leads" group="leads"
-                                    @update="moveLead"
-                                    :component-data="{name:'fade'}">
-                                    <template #item="{element}">
-                                        <lead-card class="mb-2" :lead="element" @click="openLead(element)"></lead-card>
-                                    </template>
-                                </draggable>
+                                <div :id="'container' + column.id" class="leads" :data-column="column.id">
+                                    <div v-for="lead in column.leads" :key="lead.id" :data-lead="lead.id" :data-column="lead.column_id" class="mb-2">
+                                        <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,7 +56,6 @@ import ShowLead from './Modals/ShowLead.vue';
 import LeadCard from './Components/LeadCard.vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import draggable from 'vuedraggable';
 
 export default {
     inheritAttrs: false,
@@ -71,7 +66,6 @@ export default {
         ShowLead,
         RegisterLead,
         LeadCard,
-        draggable,
     },
 
     props: {
@@ -93,6 +87,7 @@ export default {
             },
             showLead: false,
             registerLead: false,
+            columnsIds: [],
         }
     },
 
@@ -133,5 +128,25 @@ export default {
             this.$inertia.reload({ only: ['leads', 'boards'] });
         }
     },
+
+    mounted() {
+        this.columns.forEach(column => {
+            this.columnsIds.push(document.querySelector('#container' + column.id))
+        });
+
+        // Drag and drop columns
+        dragula(this.columnsIds)
+        .on('drop', function (el, container) {
+            axios.put(route('crm.move.lead', {lead: el.dataset.lead}), {
+                'column_id': container.dataset.column
+            })
+            .then(response => {
+                __alert_notification(response.data.message);
+            })
+            .catch(fail => {
+                __alert_notification(fail.response.data.message, 'error');
+            });
+        })
+    }
 }
 </script>
