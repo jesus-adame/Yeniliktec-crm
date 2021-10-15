@@ -101,10 +101,10 @@
                                         {{ item.description }}
                                     </div>
                                 </td>
-                                <td class=" px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     $ {{ formatNumber(item.price) }} <span class="pr-2 capitalize">({{ item.unity }})</span>
                                 </td>
-                                <td class=" px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     {{ item.tax_amount }} % <span class="pr-2 capitalize">(IVA)</span>
                                 </td>
                                 <td class="flex justify-center items-center px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
