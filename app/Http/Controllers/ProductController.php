@@ -135,6 +135,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->quote_items()->count()) {
+            abort(401, 'No se puede borrar este producto ya que usa en cotizaciones');
+        }
+        
         $product->delete();
 
         return response(['message' => 'Eliminado correctamente']);

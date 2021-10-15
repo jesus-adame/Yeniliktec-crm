@@ -20,4 +20,9 @@ class Product extends Model
         'manage_stock',
         'tax_amount',
     ];
+
+    public function quoteItems()
+    {
+        return $this->hasMany(QuoteItem::class);
+    }
 }

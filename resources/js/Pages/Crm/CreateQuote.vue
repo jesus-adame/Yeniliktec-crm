@@ -51,6 +51,11 @@
                                 <th
                                     scope="col"
                                     class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Impuesto
+                                </th>
+                                <th
+                                    scope="col"
+                                    class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Cantidad
                                 </th>
                                 <th
@@ -84,6 +89,9 @@
                                 <td class=" px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     $ {{ formatNumber(item.price) }}
                                 </td>
+                                <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                    {{ item.tax_amount }} % <span class="pr-2 capitalize">(IVA)</span>
+                                </td>
                                 <td class="flex justify-center items-center px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     <button type="button" class="cursor-pointer" @click="reduceQtyItem(index)">
                                         <svg class="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
@@ -115,7 +123,14 @@
                         </tbody>
                         <tbody>
                             <tr>
-                                <td colspan="4"></td>
+                                <td class="text-right" colspan="5">Impuesto</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-yellow-800">
+                                    <span class="block">$ {{ formatNumber(totalTax) }}</span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-green-800">
                                     <span class="block">$ {{ formatNumber(total) }}</span>
                                 </td>
@@ -161,6 +176,16 @@ export default {
         const formatNumber = (number) => {
             return numeral(number).format();
         }
+
+        const totalTax = computed(() => {
+            let countTaxes = 0;
+
+            items.value.forEach(item => {
+                countTaxes += (item.tax_amount / 100) * item.price * item.quantity;
+            });
+
+            return countTaxes;
+        });
 
         const total = computed(() => {
             let countTotals = 0;
@@ -244,6 +269,7 @@ export default {
             reduceQtyItem,
             calcSubtotal,
             total,
+            totalTax
         };
     }
 }
