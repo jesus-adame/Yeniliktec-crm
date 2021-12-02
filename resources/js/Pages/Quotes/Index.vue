@@ -90,7 +90,7 @@
                                                     Editar
                                                 </inertia-link>
                                                 <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                                    @click="destroy(quote.id)">Eliminar</button>
+                                                    @click="clickDelete(quote.id)">Eliminar</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -99,6 +99,7 @@
                         </div>
                     </div>
                 </div>
+                <Paginator class="my-6" :paginator="quotes" />
             </div>
         </div>
     </app-layout>
@@ -110,11 +111,14 @@ import numeral from 'numeral';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
 
+import Paginator from"@/components/Paginator";
+
 export default {
     inheritAttrs: false,
 
     components: {
         AppLayout,
+        Paginator,
     },
 
     props: ['quotes'],
@@ -122,6 +126,15 @@ export default {
     setup() {
         const formatNumber = (number) => {
             return numeral(number).format();
+        }
+
+        const clickDelete = (productId) => {
+            __confirm_alert()
+                .then(result => {
+                    if (result.isConfirmed) {
+                        destroy(productId);
+                    }
+                })
         }
 
         const destroy = async (productId) => {
@@ -143,6 +156,7 @@ export default {
         return {
             formatNumber,
             destroy,
+            clickDelete,
         }
     }
 };
