@@ -24,7 +24,7 @@ class QuotationController extends Controller
             ])
             ->select('quotes.*')
             ->selectTotal()
-            ->paginate(2); 
+            ->paginate(10); 
         
         return inertia('Quotes/Index', compact('quotes'));
     }
