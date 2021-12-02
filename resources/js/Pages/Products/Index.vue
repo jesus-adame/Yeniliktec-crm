@@ -85,11 +85,14 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table>                                                                
                             </div>
+
+                            
                         </div>
                     </div>
                 </div>
+                <Paginator class="my-6" :paginator="products" />
             </div>
         </div>
     </app-layout>
@@ -100,12 +103,14 @@ import AppLayout from "@/Layouts/AppLayout";
 import numeral from 'numeral';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
+import Paginator from '../../components/paginator.vue';
 
 export default {
-    inheritAttrs: false,
+    inheritAttrs: true,
 
     components: {
         AppLayout,
+        Paginator,
     },
 
     props: ['products'],

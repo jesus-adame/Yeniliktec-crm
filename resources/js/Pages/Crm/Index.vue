@@ -57,6 +57,8 @@ import LeadCard from './Components/LeadCard.vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+import Paginator from "../../components/paginator.vue";
+
 export default {
     inheritAttrs: false,
 
@@ -66,6 +68,7 @@ export default {
         ShowLead,
         RegisterLead,
         LeadCard,
+        Paginator
     },
 
     props: {
