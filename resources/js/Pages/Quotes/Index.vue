@@ -128,6 +128,15 @@ export default {
             return numeral(number).format();
         }
 
+        const clickDelete = (productId) => {
+            __confirm_alert()
+                .then(result => {
+                    if (result.isConfirmed) {
+                        destroy(productId);
+                    }
+                })
+        }
+
         const destroy = async (productId) => {
             try {
                 let response = await axios.delete(route('quotes.destroy', { id: productId }));
@@ -147,6 +156,7 @@ export default {
         return {
             formatNumber,
             destroy,
+            clickDelete,
         }
     }
 };
