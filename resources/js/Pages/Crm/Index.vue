@@ -56,7 +56,6 @@ import ShowLead from './Modals/ShowLead.vue';
 import LeadCard from './Components/LeadCard.vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
 export default {
     inheritAttrs: false,
 
@@ -65,7 +64,7 @@ export default {
         Welcome,
         ShowLead,
         RegisterLead,
-        LeadCard,
+        LeadCard
     },
 
     props: {

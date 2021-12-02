@@ -81,15 +81,16 @@
                                                     Editar
                                                 </inertia-link>
                                                 <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                                    @click="destroy(product.id)">Eliminar</button>
+                                                    @click="clickDelete(product.id)">Eliminar</button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table>                                                                
                             </div>
                         </div>
                     </div>
                 </div>
+                <Paginator class="my-6" :paginator="products" />
             </div>
         </div>
     </app-layout>
@@ -100,12 +101,17 @@ import AppLayout from "@/Layouts/AppLayout";
 import numeral from 'numeral';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
+import Paginator from '@/components/Paginator';
+import Swal from 'sweetalert2';
+import Button from '@/Jetstream/Button.vue';
 
 export default {
-    inheritAttrs: false,
+    inheritAttrs: true,
 
     components: {
         AppLayout,
+        Paginator,
+        Button,
     },
 
     props: ['products'],
@@ -115,12 +121,25 @@ export default {
             return numeral(number).format();
         }
 
+        const reloadProducts = () => {
+            Inertia.reload({ only: ['products'] });
+        }
+
+        const clickDelete = (productId) => {
+            __confirm_alert()
+                .then(result => {
+                    if (result.isConfirmed) {
+                        destroy(productId);
+                    }
+                })
+        }
+
         const destroy = async (productId) => {
             try {
                 let response = await axios.delete(route('products.destroy', { id: productId }));
 
-                __alert_notification(response.data.message)
-                .then(() => Inertia.reload({ only: ['products'] }));
+                __alert_notification(response.data.message);
+                reloadProducts();
 
             } catch (error) {
                 Swal.fire({
@@ -132,7 +151,8 @@ export default {
 
         return {
             formatNumber,
-            destroy,
+            clickDelete,
+            reloadProducts,
         }
     }
 };
