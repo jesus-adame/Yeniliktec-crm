@@ -103,7 +103,7 @@ import AppLayout from "@/Layouts/AppLayout";
 import numeral from 'numeral';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
-import Paginator from '../../components/paginator.vue';
+import Paginator from '@/components/Paginator';
 
 export default {
     inheritAttrs: true,
