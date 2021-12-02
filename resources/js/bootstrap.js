@@ -66,3 +66,12 @@ window.__alert_axios_errors = (response) => {
         html: text,
     });
 }
+
+window.__confirm_alert = () => {
+    return Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: "Yes, I'm sure"
+    })
+}
