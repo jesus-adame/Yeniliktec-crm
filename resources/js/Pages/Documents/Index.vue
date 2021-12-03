@@ -79,7 +79,7 @@
                                                     Descargar
                                                 </a>
                                                 <button class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
-                                                    @click="destroy(document.id)">Eliminar</button>
+                                                    @click="clickDelete(document.id)">Eliminar</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -118,6 +118,15 @@ export default {
             return numeral(number).format();
         }
 
+        const clickDelete = (productId) => {
+            __confirm_alert()
+            .then(result => {
+                if (result.isConfirmed) {
+                    destroy(productId);
+                }
+            })
+        }
+
         const destroy = async (productId) => {
             try {
                 let response = await axios.delete(route('documents.destroy', { id: productId }));
@@ -137,6 +146,7 @@ export default {
         return {
             formatNumber,
             Paginator,
+            clickDelete,
         }
     }
 };

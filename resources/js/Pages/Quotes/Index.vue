@@ -109,7 +109,7 @@
 import AppLayout from "@/Layouts/AppLayout";
 import numeral from 'numeral';
 import axios from 'axios';
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia'; 
 import Swal from 'sweetalert2';
 
 import Paginator from"@/components/Paginator";
