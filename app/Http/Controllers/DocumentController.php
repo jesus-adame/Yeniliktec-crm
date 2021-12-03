@@ -11,7 +11,11 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::with(['contact', 'leads'])->paginate(10);
+        $documents = Document::orderByDesc('created_at')->with
+        ([
+            'contact', 
+            'leads'])
+            ->paginate(2);
 
         return inertia('Documents/Index', compact('documents'));
     }
