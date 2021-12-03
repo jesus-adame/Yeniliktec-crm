@@ -88,6 +88,7 @@
                         </div>
                     </div>
                 </div>
+                <Paginator class="my-6" :paginator="documents" />
             </div>
         </div>
     </app-layout>
@@ -100,11 +101,14 @@ import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
 import Swal from 'sweetalert2';
 
+import Paginator from "@/components/Paginator";
+
 export default {
     inheritAttrs: false,
 
     components: {
         AppLayout,
+        Paginator,
     },
 
     props: ['documents'],
@@ -132,7 +136,7 @@ export default {
 
         return {
             formatNumber,
-            destroy,
+            Paginator,
         }
     }
 };
