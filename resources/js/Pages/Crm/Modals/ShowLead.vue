@@ -281,7 +281,7 @@
 
         <template v-slot:footer>
             <Button class="mr-2" @click="updateLead(lead.id)">Actualizar</Button>
-            <DangerButton class="mr-2" @click="deleteLead(lead.id)">Eliminar</DangerButton>
+            <DangerButton class="mr-2" @click="clickDelete(lead.id)">Eliminar</DangerButton>
             <SecondaryButton @click="closeModal">Cerrar</SecondaryButton>
         </template>
     </dialog-modal>
@@ -353,7 +353,17 @@ export default {
             }
         }
 
-        const deleteLead = async (leadId) => {
+        //Method delete
+        const clickDelete = (leadId) => {
+            __confirm_alert()
+                .then(result => {
+                    if (result.isConfirmed) {
+                        destroy(leadId);
+                    }
+                })
+        }
+
+        const destroy = async (leadId) => {
             try {
                 Swal.showLoading();
                 
@@ -466,7 +476,7 @@ export default {
             showModal,
             closeModal,
             updateLead,
-            deleteLead,
+            clickDelete,
             lead,
             formatNumber,
             loadFile,
