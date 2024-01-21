@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: .
+      dockerfile: .docker/php-fpm/Dockerfile
+    volumes:
+      - .:/var/www/html
+    command: php-fpm --allow-to-run-as-root
+
+  nginx:
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm
+    volumes:
+      - .:/var/www/html
+  database:
+      container_name: crm-database-1
+      image: postgres:9.6.2-alpine
+      ports:
+        - "6543:5432"
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: postgres-tide
+      volumes:
+        - ./tmp/db:/var/lib/postgresql/database
