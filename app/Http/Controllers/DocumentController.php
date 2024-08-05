@@ -15,7 +15,7 @@ class DocumentController extends Controller
         ([
             'contact', 
             'leads'])
-            ->paginate(2);
+            ->paginate(10);
 
         return inertia('Documents/Index', compact('documents'));
     }
