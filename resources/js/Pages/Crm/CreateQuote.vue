@@ -12,7 +12,8 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                                 Estatus
                             </label>
-                            <select class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                            <select
+                                class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                                 name="status" id="status">
                                 <option value="active">Activo</option>
                                 <option value="inactive">Inactivo</option>
@@ -24,9 +25,11 @@
                     </div>
                     <div>
                         <select class="shadow appearance-none border w-full
-                            py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-4" name="products" id="" v-model="selectedItem">
+                            py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-4" name="products" id=""
+                            v-model="selectedItem">
                             <option value="">- Elegir -</option>
-                            <option v-for="product in products" :key="product.id" :value="product">{{ product.name }}</option>
+                            <option v-for="product in products" :key="product.id" :value="product">{{ product.name }}
+                            </option>
                         </select>
                         <button type="button"
                             class="inline-flex mb-4 items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900"
@@ -43,29 +46,23 @@
                                     class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Descripción
                                 </th>
-                                <th
-                                    scope="col"
+                                <th scope="col"
                                     class=" px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Precio
                                 </th>
-                                <th
-                                    scope="col"
+                                <th scope="col"
                                     class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Impuesto
                                 </th>
-                                <th
-                                    scope="col"
+                                <th scope="col"
                                     class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Cantidad
                                 </th>
-                                <th
-                                    scope="col"
+                                <th scope="col"
                                     class=" px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Subtotal
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="relative px-6 py-3">
+                                <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
                             </tr>
@@ -92,17 +89,21 @@
                                 <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     {{ item.tax_amount }} % <span class="pr-2 capitalize">(IVA)</span>
                                 </td>
-                                <td class="flex justify-center items-center px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                <td
+                                    class="flex justify-center items-center px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                     <button type="button" class="cursor-pointer" @click="reduceQtyItem(index)">
                                         <svg class="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
-                                            <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
+                                            <path
+                                                d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                                         </svg>
                                     </button>
-                                    <input class="mx-2 border p-1 text-center w-14" v-model="item.quantity" @keyup="item.subtotal = calcSubtotal(item)">
+                                    <input class="mx-2 border p-1 text-center w-14" v-model="item.quantity"
+                                        @keyup="item.subtotal = calcSubtotal(item)">
                                     <span class="pr-2 capitalize">{{ item.unity }}</span>
                                     <button type="button" class="cursor-pointer" @click="increaseQtyItem(index)">
                                         <svg class="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
-                                            <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
+                                            <path
+                                                d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                                         </svg>
                                     </button>
                                 </td>
@@ -114,8 +115,7 @@
                                         class="rounded text-white mx-1 bg-yellow-400 py-1 px-2 text-indigo-600hover:text-indigo-900">
                                         Edit
                                     </inertia-link> -->
-                                    <button
-                                        type="button"
+                                    <button type="button"
                                         class="rounded text-white mx-1 bg-red-400 py-1 px-2 text-indigo-600hover:text-indigo-900"
                                         @click="removeItem(index)">Delete</button>
                                 </td>
@@ -124,14 +124,16 @@
                         <tbody>
                             <tr>
                                 <td class="text-right" colspan="5">Impuesto</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-yellow-800">
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-yellow-800">
                                     <span class="block">$ {{ formatNumber(totalTax) }}</span>
                                 </td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td colspan="5"></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-green-800">
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium border-b-2 border-green-800">
                                     <span class="block">$ {{ formatNumber(total) }}</span>
                                 </td>
                                 <td></td>
@@ -139,10 +141,13 @@
                         </tbody>
                     </table>
                     <div class="flex items-center justify-end w-full">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 focus:outline-none mr-4" type="submit">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 focus:outline-none mr-4"
+                            type="submit">
                             Registrar
                         </button>
-                        <inertia-link :href="route('quotes.index')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 focus:outline-none">
+                        <inertia-link :href="route('quotes.index')"
+                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 focus:outline-none">
                             Cancelar
                         </inertia-link>
                     </div>
@@ -234,7 +239,7 @@ export default {
 
         const sendForm = async (e) => {
             let form = new FormData(e.target);
-            
+
             e.preventDefault();
             form.append('items', JSON.stringify(items.value));
 
@@ -243,7 +248,7 @@ export default {
 
                 __alert_notification(response.data.message);
                 Inertia.visit(route('crm.index'))
-                
+
             } catch (fail) {
                 let errors = Object.values(fail.response.data.errors);
                 let text = '';

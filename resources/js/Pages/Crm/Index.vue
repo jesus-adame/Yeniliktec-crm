@@ -10,8 +10,10 @@
             <button class="bg-blue-500 text-white mb-3 btn" @click="openRegisterLead">
                 Registrar seguimiento
             </button>
-            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2" href="/quotes">Cotizaciones</inertia-link>
-            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2" href="/documents">Documentos</inertia-link>
+            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2"
+                href="/quotes">Cotizaciones</inertia-link>
+            <inertia-link class="bg-gray-700 hover:bg-gray-800 text-white btn ml-2"
+                href="/documents">Documentos</inertia-link>
 
             <div class="flex">
                 <div v-for="board in boards" :key="board.id" class="w-full mb-4">
@@ -24,7 +26,8 @@
                                 <h3 class="text-center" :style="{ color: column.text_color }">{{ column.name }}</h3>
                                 <hr><br>
                                 <div :id="'container' + column.id" class="leads" :data-column="column.id">
-                                    <div v-for="lead in column.leads" :key="lead.id" :data-lead="lead.id" :data-column="lead.column_id" class="mb-2">
+                                    <div v-for="lead in column.leads" :key="lead.id" :data-lead="lead.id"
+                                        :data-column="lead.column_id" class="mb-2">
                                         <lead-card :lead="lead" @click="openLead(lead)"></lead-card>
                                     </div>
                                 </div>
@@ -35,20 +38,13 @@
             </div>
         </div>
     </app-layout>
-    <register-lead
-        :showModal="registerLead"
-        :users="users"
-        @closeModal="closeRegisterLead"
+    <register-lead :showModal="registerLead" :users="users" @closeModal="closeRegisterLead"
         @leadRegistered="resfreshLeads"></register-lead>
-    <show-lead
-        :showModal="showLead"
-        :lead="lead"
-        :columns="columns"
-        @closeModal="closeLead"
+    <show-lead :showModal="showLead" :lead="currentLead" :columns="columns" @closeModal="closeLead"
         @leadRegistered="resfreshLeads"></show-lead>
 </template>
 
-<script>
+<script setup>
 import AppLayout from '@/Layouts/AppLayout';
 import Welcome from '@/Jetstream/Welcome';
 import RegisterLead from './Modals/RegisterLead.vue';
@@ -56,96 +52,80 @@ import ShowLead from './Modals/ShowLead.vue';
 import LeadCard from './Components/LeadCard.vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-export default {
-    inheritAttrs: false,
+import { onMounted, ref } from 'vue'
 
-    components: {
-        AppLayout,
-        Welcome,
-        ShowLead,
-        RegisterLead,
-        LeadCard
-    },
+const props = defineProps({
+    leads: Array,
+    boards: Array,
+    columns: Array,
+    users: Array
+})
 
-    props: {
-        leads: Array,
-        boards: Array,
-        columns: Array,
-        users: Array,
-    },
+const currentLead = ref()
+const showLead = ref(false)
+const registerLead = ref(false)
+const columnsIds = ref([])
 
-    data() {
-        return {
-            lead: {
-                title: '',
-                author: {},
-                agent: {},
-                status: 'pending',
-                description: '',
-                contact: {},
-            },
-            showLead: false,
-            registerLead: false,
-            columnsIds: [],
-        }
-    },
+async function openLead(leadData) {
+    try {
+        Swal.showLoading();
+        let response = await axios.get('/leads/' + leadData.id)
 
-    methods: {
-        async openLead(lead) {
-            try {
-                Swal.showLoading();
-                let response = await axios.get('/leads/' + lead.id);
-                this.lead = response.data;
-                this.showLead = true;
-                Swal.close();
-                
-            } catch (fail) {
-                Swal.fire({
-                    icon: 'error',
-                    title: fail.response.data.message
-                });
-            }
-        },
+        currentLead.value = response.data;
+        showLead.value = true;
+        Swal.close();
 
-        moveLead(element) {
-            console.log(element);
-        },
-
-        closeLead() {
-            this.showLead = false;
-        },
-
-        openRegisterLead() {
-            this.registerLead = true;
-        },
-
-        closeRegisterLead() {
-            this.registerLead = false;
-        },
-
-        resfreshLeads() {
-            this.$inertia.reload({ only: ['leads', 'boards'] });
-        }
-    },
-
-    mounted() {
-        this.columns.forEach(column => {
-            this.columnsIds.push(document.querySelector('#container' + column.id))
+    } catch (fail) {
+        Swal.fire({
+            icon: 'error',
+            title: fail.response.data.message
         });
+    }
+}
 
-        // Drag and drop columns
-        dragula(this.columnsIds)
+const moveLead = (element) => {
+    console.log(element);
+}
+
+const closeLead = () => {
+    showLead.value = false;
+}
+
+const openRegisterLead = () => {
+    registerLead = true;
+}
+
+const closeRegisterLead = () => {
+    registerLead = false;
+}
+
+const resfreshLeads = () => {
+    $inertia.reload({ only: ['leads', 'boards'] });
+}
+
+onMounted(() => {
+    props.columns.forEach(column => {
+        columnsIds.value.push(document.querySelector('#container' + column.id))
+    });
+
+    // Drag and drop columns
+    dragula(columnsIds.value)
         .on('drop', function (el, container) {
-            axios.put(route('crm.move.lead', {lead: el.dataset.lead}), {
+            axios.put(route('crm.move.lead', { lead: el.dataset.lead }), {
                 'column_id': container.dataset.column
             })
-            .then(response => {
-                __alert_notification(response.data.message);
-            })
-            .catch(fail => {
-                __alert_notification(fail.response.data.message, 'error');
-            });
+                .then(response => {
+                    __alert_notification(response.data.message);
+                })
+                .catch(fail => {
+                    __alert_notification(fail.response.data.message, 'error');
+                });
         })
-    }
+})
+</script>
+
+<script>
+export default {
+    inheritAttrs: false,
 }
 </script>
